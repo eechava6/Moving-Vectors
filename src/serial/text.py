@@ -23,8 +23,9 @@ def text_analysis():
             #Sort
             articlesFinal = articlesFinal.sort_values(by='frec',ascending=False)
             end = timer()
+            calculationTime = end-start
             print(articlesFinal.iloc[0:10,[3,0,1]])
-            print("Time for word "+word+" is :" + str(end - start) + " seconds")
+            print("Time for word "+word+" is :" + str(calculationTime) + " seconds")
     except Exception as e:
         print("ERROR "+str(e))
         text_analysis()
