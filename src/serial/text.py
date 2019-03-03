@@ -7,6 +7,9 @@ def text_analysis():
         while(word != "/"):
             word = input("Ingrese la palabra, para salir ingrese \"/\" : " )
             if word == "/":
+                print(articles1.head(2))
+                print(articles.head(2))
+                
                 return 0
             start = timer()
             articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
