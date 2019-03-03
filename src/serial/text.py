@@ -18,13 +18,13 @@ def text_analysis():
             upperCount = articlesFinal["content"].str.count(word.upper())
             capitalizeCount = articlesFinal["content"].str.count(word.capitalize())
 
-            articlesFinal["frec"] = lowerCount+upperCount +capitalizeCount
+            articlesFinal["frec"] = lowerCount+upperCount+capitalizeCount
 
             #Sort
             articlesFinal = articlesFinal.sort_values(by='frec',ascending=False)
             end = timer()
             print(articlesFinal.iloc[0:10,[3,0,1]])
-            print("Time for word"+word+" is :" end - start + " seconds")
+            print("Time for word"+word+" is :" + end - start + " seconds")
     except Exception as e:
         print("ERROR "+str(e))
         text_analysis()
