@@ -16,7 +16,8 @@ def text_analysis():
             #Normalizing the words
             lowerCount = articlesFinal["content"].str.count(word.lower())
             upperCount = articlesFinal["content"].str.count(word.upper())
-            capitalizeCount = articlesFinal["content"].str.count(word.capitalize()
+            capitalizeCount = articlesFinal["content"].str.count(word.capitalize())
+
             articlesFinal["frec"] = lowerCount+upperCount +capitalizeCount
 
             #Sort
