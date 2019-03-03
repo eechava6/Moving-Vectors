@@ -13,14 +13,11 @@ def text_analysis():
             articles1 = pd.read_csv("/opt/datasets/articles2.csv",usecols=[1,2,9])
             articles2 = pd.read_csv("/opt/datasets/articles3.csv",usecols=[1,2,9])
             articlesFinal = pd.concat([articles, articles1, articles2])
+            #Normalizing the words
             lowerCount = articlesFinal["content"].str.count(word.lower())
             upperCount = articlesFinal["content"].str.count(word.upper())
-            #Normalizing the words
             capitalizeCount = articlesFinal["content"].str.count(word.capitalize()
-            articlesFinal["frec"] = 
-            lowerCount+
-            upperCount + 
-            capitalizeCount)
+            articlesFinal["frec"] = lowerCount+upperCount +capitalizeCount
 
             #Sort
             articlesFinal = articlesFinal.sort_values(by='frec',ascending=False)
