@@ -2,17 +2,14 @@ from cython.parallel import prange
 import pandas as pd
 from timeit import default_timer as timer
 
-cdef int i
-cdef int n = 30
-cdef int sum = 0
 
-for i in prange(n, nogil=True):
-    sum += i
-
-print(sum)
-
-def countWord():
-    cdef count
+def countWord(artLine,word):
+    cdef int i
+    cdef int count = 0
+    words = artLine.split(" ")
+    for i in prange(len(words), nogil=True):
+        if(words[i] == word):
+            count += 1
 
 def text_analysis():
     try:
@@ -21,7 +18,6 @@ def text_analysis():
             word = input("Ingrese la palabra, para salir ingrese \"/\" : " )
             if word == "/":
                 return 0
-            
             start = timer()
             articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
             articles1 = pd.read_csv("/opt/datasets/articles2.csv",usecols=[1,2,9])
@@ -31,9 +27,8 @@ def text_analysis():
             lowerCount = articlesFinal["content"].str.count(word.lower())
             upperCount = articlesFinal["content"].str.count(word.upper())
             capitalizeCount = articlesFinal["content"].str.count(word.capitalize())
-
-            articlesFinal["frec"] = lowerCount+upperCount+capitalizeCount
-
+            #Reducing the results
+            articlesFinal["frec"] = lowerCount+upperCount+capitalizeCount    
             #Sort
             articlesFinal = articlesFinal.sort_values(by='frec',ascending=False)
             end = timer()
@@ -43,4 +38,5 @@ def text_analysis():
     except Exception as e:
         print("ERROR "+str(e))
         text_analysis()
+
 text_analysis()
