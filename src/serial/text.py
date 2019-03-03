@@ -18,7 +18,7 @@ def text_analysis():
             end = timer()
             print(articlesFinal.iloc[0:10,[3,0,1]])
             print(end - start)
-    except:
-        print("ERROR ")
+    except Exception as e:
+        print("ERROR "+str(e))
         text_analysis()
 text_analysis()
