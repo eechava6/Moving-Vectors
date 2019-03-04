@@ -5,30 +5,29 @@ def text_analysis():
     try:
         word = ""
         while(word != "/"):
-            word = input("Ingrese la palabra, para salir ingrese \"/\" : " )
+            word = input("Ingrese la palabra, para salir ingrese \"/\" : " ).lower()
             if word == "/":
                 print(articles1.head(2))
                 print(articles.head(2))
                 
                 return 0
             start = timer()
-            articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
-            articles1 = pd.read_csv("/opt/datasets/articles2.csv",usecols=[1,2,9])
-            articles2 = pd.read_csv("/opt/datasets/articles3.csv",usecols=[1,2,9])
+            articles = pd.read_csv("articles1.csv",usecols=[1,2,9])
+            articles1 = pd.read_csv("articles2.csv",usecols=[1,2,9])
+            articles2 = pd.read_csv("articles3.csv",usecols=[1,2,9])
             articlesFinal = pd.concat([articles, articles1, articles2])
-            #Normalizing the words
-            lowerCount = articlesFinal["content"].str.count(word.lower())
-            upperCount = articlesFinal["content"].str.count(word.upper())
-            capitalizeCount = articlesFinal["content"].str.count(word.capitalize())
-
-            articlesFinal["frec"] = lowerCount+upperCount+capitalizeCount
-
-            #Sort
-            articlesFinal = articlesFinal.sort_values(by='frec',ascending=False)
+            for word2 in articlesFinal.values.tolist():
+                title = str(word2[1]).lower()
+                news = str(word2[2]).lower()
+                count = title.count(word)+news.count(word)
+                if count > 0:
+                    temp_count.append([count, word2[0], word2[1]])
+            news = sorted(temp_count, key=lambda x: x[0])
+            news.reverse()
             end = timer()
             calculationTime = end-start
-            print(articlesFinal.iloc[0:10,[3,0,1]])
-            print("Time for word "+word+" is :" + str(calculationTime) + " seconds")
+            for i in news[:10]:
+                print(i[0], i[1], i[2])
     except Exception as e:
         print("ERROR "+str(e))
         text_analysis()
