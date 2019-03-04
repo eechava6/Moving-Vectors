@@ -1,4 +1,4 @@
-#Avance del proyecto 2 Text-Analytics Tópicos Especiales en Telemática
+# Avance del proyecto 2 Text-Analytics Tópicos Especiales en Telemática
 
 - Se define como analizar los tiempos de respuesta del algoritmo.
 - Se determinan los procesos paralelizables y se desarrolla su primer acercamiento con openmp en conjunto con cython.
