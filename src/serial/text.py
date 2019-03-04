@@ -7,15 +7,13 @@ def text_analysis():
         while(word != "/"):
             word = input("Ingrese la palabra, para salir ingrese \"/\" : " ).lower()
             if word == "/":
-                print(articles1.head(2))
-                print(articles.head(2))
-                
                 return 0
             start = timer()
             articles = pd.read_csv("articles1.csv",usecols=[1,2,9])
             articles1 = pd.read_csv("articles2.csv",usecols=[1,2,9])
             articles2 = pd.read_csv("articles3.csv",usecols=[1,2,9])
             articlesFinal = pd.concat([articles, articles1, articles2])
+            temp_count=[]
             for word2 in articlesFinal.values.tolist():
                 title = str(word2[1]).lower()
                 news = str(word2[2]).lower()
