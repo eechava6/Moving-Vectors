@@ -26,7 +26,9 @@ def text_analysis():
               news.reverse()
               end = timer()
               calculationTime = end-start
-              for i in news[:10]:
+              cdef int i = 0
+              cdef int size = len(news)
+              for i in size:
                   print(i[0], i[1], i[2])
     except Exception as e:
         print("ERROR "+str(e))

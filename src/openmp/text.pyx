@@ -6,10 +6,33 @@ from timeit import default_timer as timer
 def countWord(artLine,word):
     cdef int i
     cdef int count = 0
-    words = artLine.split(" ")
-    for i in prange(len(words), nogil=True):
+
+    wordsArr = artLine.split(" ")
+    cdef str* words = wordsArr 
+    cdef int size = len(wordsArr)
+    
+    for i in prange(size, nogil=True):
         if(words[i] == word):
             count += 1
+
+    print(count)
+
+
+
+def testX():
+    try:
+        word = ""
+        while(word != "/"):
+            word = input("Ingrese la palabra, para salir ingrese \"/\" : " )
+            if word == "/":
+                return 0
+            start = timer()
+            countWord(word)
+            end = timer()
+    except Exception as e:
+        print("ERROR "+str(e))
+        testX()
+
 
 def text_analysis():
     try:
@@ -19,6 +42,7 @@ def text_analysis():
             if word == "/":
                 return 0
             start = timer()
+            
             articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
             articles1 = pd.read_csv("/opt/datasets/articles2.csv",usecols=[1,2,9])
             articles2 = pd.read_csv("/opt/datasets/articles3.csv",usecols=[1,2,9])
@@ -39,4 +63,4 @@ def text_analysis():
         print("ERROR "+str(e))
         text_analysis()
 
-text_analysis()
+testX()
