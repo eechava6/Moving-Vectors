@@ -6,3 +6,4 @@
 - Se realiza la primera implementación del algoritmo de forma serial.
 - Se hacen pruebas de openmp con cython para ver tiempos de respuesta.
 - Se expande ciertas operaciones para poder definir la versión paralelizable.
+- Se migra el proyecto a C++ debido a dificultades con OpenMP en Python. 
