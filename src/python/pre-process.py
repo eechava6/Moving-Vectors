@@ -1,8 +1,8 @@
 import pandas as pd
 from timeit import default_timer as timer
 
-def text_analysis():
-    try:    
+try:
+        start = timeit()    
         print("Starting articles concatenation...")
         articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
         print("article1.csv loaded")
@@ -15,6 +15,7 @@ def text_analysis():
         articlesFinal.to_csv('result.csv', sep='\t')
         print("Concatenation successfull")
         print("File created as: result.csv")
-    except Exception as e:
-            print("ERROR "+str(e))
-text_analysis()
+        end = timeit()
+        print("File pre-processing time was: "+(start-end))
+except Exception as e:
+        print("ERROR "+str(e))
