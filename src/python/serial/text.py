@@ -5,14 +5,15 @@ def text_analysis():
     try:    
         print("Starting articles concatenation...")
         articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
-        print("Article1 loaded")
+        print("article1.csv loaded")
         articles1 = pd.read_csv("/opt/datasets/articles2.csv",usecols=[1,2,9])
-        print("Article2 loaded")
+        print("article2.csv loaded")
         articles2 = pd.read_csv("/opt/datasets/articles3.csv",usecols=[1,2,9])
-        print("Article3 loaded")
+        print("article3.csv loaded")
         articlesFinal = pd.concat([articles, articles1, articles2])
         print("Concatenating Files: articles1.csv - articles2.csv - articles3.csv")
         articlesFinal.to_csv('result.csv', sep='\t')
+        print("Concatenation successfull")
         print("File created as: result.csv")
     except Exception as e:
             print("ERROR "+str(e))
