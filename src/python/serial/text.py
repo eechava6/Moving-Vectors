@@ -3,12 +3,17 @@ from timeit import default_timer as timer
 
 def text_analysis():
     try:    
+        print("Starting articles concatenation...")
         articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
+        print("Article1 loaded")
         articles1 = pd.read_csv("/opt/datasets/articles2.csv",usecols=[1,2,9])
+        print("Article2 loaded")
         articles2 = pd.read_csv("/opt/datasets/articles3.csv",usecols=[1,2,9])
+        print("Article3 loaded")
         articlesFinal = pd.concat([articles, articles1, articles2])
-        articlesFinal.head(5)
-        articlesFinal.to_csv('aux.csv', sep='\t')
+        print("Concatenating Files: articles1.csv - articles2.csv - articles3.csv")
+        articlesFinal.to_csv('result.csv', sep='\t')
+        print("File created as: result.csv")
     except Exception as e:
             print("ERROR "+str(e))
 text_analysis()
