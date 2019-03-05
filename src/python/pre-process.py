@@ -16,6 +16,6 @@ try:
         print("Concatenation successfull")
         print("File created as: result.csv")
         end = timer()
-        print("File pre-processing time was: "+str(start-end))
+        print("File pre-processing time was: "+str(end-start))
 except Exception as e:
         print("ERROR "+str(e))
