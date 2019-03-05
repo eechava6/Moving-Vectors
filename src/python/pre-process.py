@@ -14,9 +14,9 @@ try:
                 print("article3.csv loaded")
                 articlesFinal = pd.concat([articles, articles1, articles2])
                 print("Concatenating Files: articles1.csv - articles2.csv - articles3.csv")
-                articlesFinal.to_csv('result.csv', sep='\t')
+                articlesFinal.to_csv('results.csv', sep='\t')
                 print("Concatenation successfull")
-                print("File created as: result.csv")
+                print("File created as: results.csv")
                 end = timer()
                 print("File pre-processing time was: "+str(end-start))
         else:   
