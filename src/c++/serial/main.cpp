@@ -59,7 +59,7 @@ int main()
     }
     //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
   transform(word.begin(),word.end(),word.begin(),::tolower);
-  cout<<word<<endl;
+  cout<<"Word searched is : "<<word<<endl;
   string str;
   string str2;
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
@@ -70,22 +70,30 @@ int main()
   stringstream ss(str);
   stringstream ss2(str2);
   int cont=0;
-  //Verifica en el contet cuantas repeticiones de la palabra encuentra
+  //Verifica en el content cuantas repeticiones de la palabra encuentra
   while(ss>>str){
+    cout << "Str in content is: " << str << endl;
     if(word==str)
+    cout << "Word : "<<word<<  " match with Str " <<endl; 
       cont++;    
   }
   //Verifica en el title cuantas repeticiones de la palabra encuentra
   while(ss2>>str2){
+    cout << "Str in title is: " << str2 << endl;
     if(word==str2){
+      cout << "Word : "<<word<<  " match with Str " <<endl; 
       cont++;
     }
   }
-  //Almacena en un arreglo paraluego poder hacer el sort
+  //Almacena en un arreglo para luego poder hacer el sort
   words[i]=cont;
   }
+
+  for(int i = 0; i <= (sizeof(words)/sizeof(*words)); i++){
+    cout << "Word " << i << " : "<<words[i] << "\n";
+  }
   //Busca el elemento mas grande del arreglo, pero dudo del count
-  std::cout << "The largest element is "  << *std::max_element(words,words+7) << '\n';
+ cout << "The largest element is "  << *std::max_element(words,words+7) << '\n';
   }
 }
 

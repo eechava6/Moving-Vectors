@@ -3,7 +3,7 @@ from timeit import default_timer as timer
 import os  
 
 try:    
-        if not(os.path.isfile('./results.csv') ):
+        if not(os.path.isfile('../results.csv') ):
                 start = timer()
                 print("Starting articles concatenation...")
                 articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
