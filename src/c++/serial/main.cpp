@@ -72,9 +72,10 @@ int main()
     int cont=0;
     //Verifica en el content cuantas repeticiones de la palabra encuentra
       while(ss>>str){
-        if(word==str)
-        cout << "Word : "<<word<<  " match with content Str :"<< str <<" total count is : "<< cont << endl; 
-          cont++;    
+        if(word==str){
+          cout << "Word : "<<word<<  " match with content Str :"<< str <<" total count is : "<< cont << endl; 
+          cont++;
+        }
       }
     //Verifica en el title cuantas repeticiones de la palabra encuentra
       while(ss2>>str2){
@@ -82,7 +83,7 @@ int main()
           cout << "Word : "<<word<<  " match with title Str :"<< str <<" total count is : "<< cont << endl; 
           cont++;
         }
-  }
+      }
   //Almacena en un arreglo para luego poder hacer el sort
   words[i]=cont;
   }
