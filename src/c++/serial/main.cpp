@@ -87,12 +87,40 @@ int main()
   words[i]=cont;
   }
 
- for(int i = 0; i <= (sizeof(words)/sizeof(*words)); i++){
-    cout << "Word " << filtered[i].title << " : "<<words[i] << "\n";
+  selectionSort(words,filtered.size());
+
+  for(int i = 0; i < filtered.size(); i++){
+    cout << words[i] << endl;
   }
 
   //Busca el elemento mas grande del arreglo, pero dudo del count
- cout << "The largest element is "  << *std::max_element(words,words+7) << '\n';
+ cout << "The largest element is "  << *max_element(words,words+7) << '\n';
   }
 }
 
+
+void swap(int *xp, int *yp) 
+{
+  //Swaps between 2 elements 
+    int temp = *xp; 
+    *xp = *yp; 
+    *yp = temp; 
+} 
+  
+void selectionSort(int arr[], int n) 
+{ 
+    int i, j, min_idx; 
+  
+    // One by one move boundary of unsorted subarray 
+    for (i = 0; i < n-1; i++) 
+    { 
+        // Find the minimum element in unsorted array 
+        min_idx = i; 
+        for (j = i+1; j < n; j++) 
+          if (arr[j] < arr[min_idx]) 
+            min_idx = j; 
+  
+        // Swap the found minimum element with the first element 
+        swap(&arr[min_idx], &arr[i]); 
+    } 
+} 
