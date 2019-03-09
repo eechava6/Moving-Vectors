@@ -86,10 +86,15 @@ int main()
   //Almacena en un arreglo para luego poder hacer el sort
   words[i]=cont;
   }
-
+  int count = 0;
+  int index = 0;
   for(int i = 0; i <= (sizeof(words)/sizeof(*words)); i++){
-    cout << "Word " << filtered[i].title << " : "<<words[i] << "\n";
+    if(words[i] >= count){
+      index = i;
+    }
   }
+
+  cout << "Title : "<< filtered[index].title << " has : " << index << " times the word : " << word <<endl;
   //Busca el elemento mas grande del arreglo, pero dudo del count
  cout << "The largest element is "  << *std::max_element(words,words+7) << '\n';
   }
