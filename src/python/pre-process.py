@@ -1,9 +1,9 @@
 import pandas as pd
 from timeit import default_timer as timer
-import os  
+import os
 
-try:    
-        if not(os.path.isfile('../results.csv') ):
+try:
+        if not(os.path.isfile('./results.csv') ):
                 start = timer()
                 print("Starting articles concatenation...")
                 articles = pd.read_csv("/opt/datasets/articles1.csv",usecols=[1,2,9])
@@ -13,13 +13,15 @@ try:
                 articles2 = pd.read_csv("/opt/datasets/articles3.csv",usecols=[1,2,9])
                 print("article3.csv loaded")
                 articlesFinal = pd.concat([articles, articles1, articles2])
+                articlesFinal['title']=articlesFinal['title'].str.lower()
+                articlesFinal['content']=articlesFinal['content'].str.lower()
                 print("Concatenating Files: articles1.csv - articles2.csv - articles3.csv")
-                articlesFinal.to_csv('results.csv', sep='\t')
+                articlesFinal.to_csv('results.csv',index=False,header=False, sep=';')
                 print("Concatenation successfull")
                 print("File created as: results.csv")
                 end = timer()
                 print("File pre-processing time was: "+str(end-start))
-        else:   
+        else:
                 print("File 'results.csv' already exists, skypping concatenation ...")
 except Exception as e:
         print("ERROR "+str(e))
