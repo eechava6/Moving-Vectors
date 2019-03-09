@@ -128,7 +128,7 @@ int main()
   
 
   //Se imprime en orden ascendente los resultados con el articulo.
-  for(int i = 10; i <= 0; i--){
+  for(int i = 10; i >= 0; i--){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
 
