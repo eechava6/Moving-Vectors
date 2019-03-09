@@ -27,7 +27,7 @@ void swap(int *xp, int *yp)
     *yp = temp; 
 } 
   
-void selectionSort(int arr[], int n) 
+void selectionSort(int arr[],int indexes[], int n) 
 { 
     int i, j, min_idx; 
   
@@ -39,9 +39,10 @@ void selectionSort(int arr[], int n)
         for (j = i+1; j < n; j++) 
           if (arr[j] < arr[min_idx]) 
             min_idx = j; 
-  
+            
         // Swap the found minimum element with the first element 
         swap(&arr[min_idx], &arr[i]); 
+        swap(&indexes[min_idx], &indexes[i]); 
     } 
 } 
 
@@ -80,6 +81,8 @@ int main()
     }
   
   int words[filtered.size()+1];
+  int indexes[filtered.size()+1];
+
   while(cin>>word){
     if(word=="/"){
       return 0;
@@ -112,14 +115,23 @@ int main()
   words[i]=cont;
   }
 
-  selectionSort(words,filtered.size());
-
+  //Llena un arreglo con los indices de cada articulo (Es decir la poWsición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
-    cout << words[i] << endl;
+    indexes[i] = i;
   }
 
-  //Busca el elemento mas grande del arreglo, pero dudo del count
- cout << "The largest element is "  << *max_element(words,words+7) << '\n';
+  /*Se Ejecuta el algoritmo Selection Sorts, ordena de forma Min - Max 
+  el arreglo words tendrá en orden ascendente los valores de la palabra buscada
+  mientras que indexes tendrá los "Intercambios" de posición
+  que permiten relacionar los valores con un articulo.*/
+  selectionSort(words,indexes,filtered.size());
+  
+
+  //Se imprime en orden ascendente los resultados con el articulo.
+  for(int i = 0; i < filtered.size(); i++){
+     cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
+  }
+
   }
 }
 
