@@ -5,7 +5,7 @@
 #include <sstream>
 #include <vector>
 #include <bits/stdc++.h>
- 
+#include <ctime>
 
 using namespace std;
 
@@ -54,7 +54,7 @@ int main()
       cout << "File not open\n";
       return 1;
     }
-    
+  
   vector<Columns> filtered;
     
   string line;
@@ -63,6 +63,7 @@ int main()
   const char delim = ';';
   int i = 0;
   //lee el csv ya procesado por python  
+ 
   while (getline(fin, line))
     {
       istringstream ss(line);
@@ -82,14 +83,17 @@ int main()
   
   int words[filtered.size()+1];
   int indexes[filtered.size()+1];
-
+  cout << "What word do you want to search for? \n";
   while(cin>>word){
     if(word=="/"){
       return 0;
     }
     //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
   transform(word.begin(),word.end(),word.begin(),::tolower);
-  cout<<"Word searched is : "<<word<<endl;
+  cout<<"Starting search for word : '"<<word << "' ...."<<endl;
+  //Comienza a contar el tiempo
+  clock_t begin = clock();
+
   string str;
   string str2;
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
@@ -126,12 +130,16 @@ int main()
   que permiten relacionar los valores con un articulo.*/
   selectionSort(words,indexes,filtered.size());
   
+  //Termina el tiempo
+  clock_t end = clock();
+  double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
   //Se imprime en orden ascendente los resultados con el articulo.
   for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
-
+  cout <<" \n \n Total searching time was : "<< elapsed_secs << " seconds"<< endl;
+  cout <<" \n \n What word do you want to search for? \n";
   }
 }
 
