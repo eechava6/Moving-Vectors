@@ -73,30 +73,31 @@ int main()
     //Verifica en el content cuantas repeticiones de la palabra encuentra
       while(ss>>str){
         if(word==str)
-        cout << "Word : "<<word<<  " match with Str " <<endl; 
+        cout << "Word : "<<word<<  " match with content Str :"<< str <<" total count is : "<< cont << endl; 
           cont++;    
       }
     //Verifica en el title cuantas repeticiones de la palabra encuentra
       while(ss2>>str2){
         if(word==str2){
-          cout << "Word : "<<word<<  " match with Str " <<endl; 
+          cout << "Word : "<<word<<  " match with title Str :"<< str <<" total count is : "<< cont << endl; 
           cont++;
         }
   }
   //Almacena en un arreglo para luego poder hacer el sort
   words[i]=cont;
   }
+
   int count = 0;
   int index = 0;
-  for(int i = 0; i <= (sizeof(words)/sizeof(*words)); i++){
+  for(int i = 0; i <= (sizeof(words)/sizeof(*words))-1; i++){
     if(words[i] >= count){
       index = i;
+      count = words[i];
     }
   }
-
-  cout << "Title : "<< filtered[index].title << " has : " << index << " times the word : " << word <<endl;
+  cout << "Index : " << index<<endl;
   //Busca el elemento mas grande del arreglo, pero dudo del count
- cout << "The largest element is "  << *std::max_element(words,words+7) << '\n';
+  
   }
 }
 
