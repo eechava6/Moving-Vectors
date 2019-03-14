@@ -95,7 +95,7 @@ int main()
     }
     //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
   transform(word.begin(),word.end(),word.begin(),::tolower);
-  cout<<"Starting search for word : '"<<word << "' ...."<<endl;
+  cout<<"Starting count for word : '"<<word << "' ...."<<endl;
   //Comienza a contar el tiempo
   double start_time = omp_get_wtime();
   int size = filtered.size();
@@ -136,7 +136,7 @@ int main()
   printf("Counting time was : %lf \n", countTime);
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
 
-  cout << "Starting top-down ordering..." <<endl;
+  cout << "Starting ordering..." <<endl;
   int startOrder_time = omp_get_wtime();
 
   
@@ -157,7 +157,8 @@ int main()
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
   int orderTime = omp_get_wtime() - startOrder_time;
-  printf("Ordering time was : %lf \n", countTime);
+  printf("\n \n Ordering time was : %lf \n", orderTime);
+  cout << "Total time was : " << orderTime + countTime << endl;
   cout <<" \n \n What word do you want to search for? \n";
   }
 }
