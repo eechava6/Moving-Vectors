@@ -107,12 +107,8 @@ int main()
   
   #pragma omp for 
   for(i=0;i < size;i++){
-    tid = omp_get_thread_num();
-    
     str = filtered[i].content;
     str2 = filtered[i].title;
-    cout << "I'm thread number : " << tid << " and im in article : "<<  str2<<endl;
-
     stringstream ss(str);
     stringstream ss2(str2);
     cont=0;
@@ -133,7 +129,7 @@ int main()
   }
 
   double countTime = omp_get_wtime() - start_time;
-  printf("Counting time was : %lf", countTime);
+  printf("Counting time was : %lf \n", countTime);
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
