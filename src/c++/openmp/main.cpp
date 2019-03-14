@@ -6,7 +6,7 @@
 #include <vector>
 #include <bits/stdc++.h>
 #include <ctime>
-
+#include <omp.h>
 using namespace std;
 
 struct Columns {
@@ -102,7 +102,7 @@ int main()
   #pragma omp parallel private (str,str2,cont,i) shared (size) 
   {
   
-
+  cout << "There is :"<< omp_get_num_threads()<< " Threads" <<endl;
   #pragma omp for 
   for(i=0;i < size;i++){
     str = filtered[i].content;
