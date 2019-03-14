@@ -93,15 +93,16 @@ int main()
   cout<<"Starting search for word : '"<<word << "' ...."<<endl;
   //Comienza a contar el tiempo
   clock_t begin = clock();
-
-  string str;
-  string str2;
-  //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
-  #pragma omp parallel
-  {
+  string str = "";
+  string str2 = "";
   int size = filtered.size();
   int i = 0;
   int cont = 0;
+  //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
+  #pragma omp parallel private (str,str2,cont,i) shared (size) 
+  {
+  
+
   #pragma omp for 
   for(i=0;i < size;i++){
     str = filtered[i].content;
@@ -113,12 +114,15 @@ int main()
     //Verifica en el content cuantas repeticiones de la palabra encuentra
       while(ss>>str){
         if(word==str)
-       cont++;    
+         
+           cont++;   
+        
+        
       }
     //Verifica en el title cuantas repeticiones de la palabra encuentra
       while(ss2>>str2){
         if(word==str2){
-          cont++;
+           cont++;   
         }
   }
   //Almacena en un arreglo para luego poder hacer el sort
