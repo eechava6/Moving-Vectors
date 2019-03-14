@@ -38,8 +38,6 @@ void selectionSort(int arr[],int indexes[], int n)
     { 
         // Find the minimum element in unsorted array 
         min_idx = i; 
-
-        #pragma omp parallel for
         for (j = i+1; j < n; j++){
           if (arr[j] < arr[min_idx]) {
             min_idx = j; 
@@ -153,8 +151,6 @@ int main()
   que permiten relacionar los valores con un articulo.*/
   selectionSort(words,indexes,filtered.size());
   
-
-
   //Se imprime en orden ascendente los resultados con el articulo.
   for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
