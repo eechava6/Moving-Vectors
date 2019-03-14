@@ -94,14 +94,15 @@ int main()
   cout<<"Starting search for word : '"<<word << "' ...."<<endl;
   //Comienza a contar el tiempo
   clock_t begin = clock();
-  string str = "";
-  string str2 = "";
   int size = filtered.size();
+  
+  //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
+  #pragma omp parallel 
+  {
   int i = 0;
   int cont = 0;
-  //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
-  #pragma omp parallel private (str,str2,cont) shared (i,size) 
-  {
+  string str = "";
+  string str2 = "";
   
   #pragma omp for 
   for(i=0;i < size;i++){
@@ -126,7 +127,7 @@ int main()
   words[i]=cont;
   }
 }
-  //Llena un arreglo con los indices de cada articulo (Es decir la poWsición en el arreglo)
+  //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
   }
