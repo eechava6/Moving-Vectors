@@ -118,7 +118,12 @@ int main()
   //Almacena en un arreglo para luego poder hacer el sort
   words[i]=cont;
   }
+   //Termina el tiempo de conteo.
+   clock_t end = clock();
+   double countTime = double(end - begin) / CLOCKS_PER_SEC;
 
+  //Comienza la captura de tiempo para el ordenamiento.
+  begin = clock();
   //Llena un arreglo con los indices de cada articulo (Es decir la poWsición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
@@ -129,16 +134,20 @@ int main()
   mientras que indexes tendrá los "Intercambios" de posición
   que permiten relacionar los valores con un articulo.*/
   selectionSort(words,indexes,filtered.size());
-  
-  //Termina el tiempo
-  clock_t end = clock();
-  double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
   //Se imprime en orden ascendente los resultados con el articulo.
   for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
-  cout <<" \n \n Total searching time was : "<< elapsed_secs << " seconds"<< endl;
+
+  //Termina tiempo para el ordenamiento.
+  end = clock();
+  double orderTime = double(end - begin) / CLOCKS_PER_SEC;
+
+  //Imprime los resultados
+  cout << "Count time was : " <<countTime << endl;
+  cout << "Ordering time was :" <<orderTime << endl;
+  cout << "Total time was : " << orderTime + countTime << endl;
   cout <<" \n \n What word do you want to search for? \n";
   }
 }

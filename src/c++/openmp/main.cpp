@@ -38,6 +38,7 @@ void selectionSort(int arr[],int indexes[], int n)
     { 
         // Find the minimum element in unsorted array 
         min_idx = i; 
+
         #pragma omp parallel for
         for (j = i+1; j < n; j++){
           if (arr[j] < arr[min_idx]) {
@@ -133,15 +134,15 @@ int main()
   words[i]=cont;
   }
   }
-
+  //Calcula el tiempo final para el conteo.
   double countTime = omp_get_wtime() - start_time;
 
-  //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
-
+  
+  //Comienza la captura de tiempo para el ordenamiento.
   cout << "Starting ordering for articles vector"<<endl;
   double startOrder_time = omp_get_wtime();
 
-  
+  //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
   }
@@ -159,8 +160,10 @@ int main()
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
 
+  //Termina el tiempo para el ordenamiento.
   double orderTime = omp_get_wtime() - startOrder_time;
 
+  //imprime los resultados
   cout << "Count time was : " <<countTime << endl;
   cout << "Ordering time was :" <<orderTime << endl;
   cout << "Total time was : " << orderTime + countTime << endl;
