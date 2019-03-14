@@ -30,10 +30,13 @@ void swap(int *xp, int *yp)
   
 void selectionSort(int arr[],int indexes[], int n) 
 { 
-    int i, j, min_idx; 
-  
+    #pragma omp parallel
+    {    
+    int i, j, min_idx = 0; 
+    int size = n-1; 
     // One by one move boundary of unsorted subarray 
-    for (i = 0; i < n-1; i++) 
+    #pragma omp for
+    for (i = 0; i < size; i++) 
     { 
         // Find the minimum element in unsorted array 
         min_idx = i; 
@@ -45,6 +48,7 @@ void selectionSort(int arr[],int indexes[], int n)
         swap(&arr[min_idx], &arr[i]); 
         swap(&indexes[min_idx], &indexes[i]); 
     } 
+    }
 } 
 
 int main()
@@ -131,6 +135,11 @@ int main()
   double countTime = omp_get_wtime() - start_time;
   printf("Counting time was : %lf \n", countTime);
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
+
+  cout << "Starting top-down ordering..." <<endl;
+  int startOrder_time = omp_get_wtime();
+
+  
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
   }
@@ -141,14 +150,14 @@ int main()
   que permiten relacionar los valores con un articulo.*/
   selectionSort(words,indexes,filtered.size());
   
-  //Termina el tiempo
 
 
   //Se imprime en orden ascendente los resultados con el articulo.
   for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
-  
+  int orderTime = omp_get_wtime() - startOrder_time;
+  printf("Ordering time was : %lf \n", countTime);
   cout <<" \n \n What word do you want to search for? \n";
   }
 }
