@@ -107,8 +107,12 @@ int main()
   
   #pragma omp for 
   for(i=0;i < size;i++){
+    tid = omp_get_thread_num();
+    
     str = filtered[i].content;
     str2 = filtered[i].title;
+    cout << "I'm thread number : " << tid << " and im in article : "<<  str2<<endl;
+
     stringstream ss(str);
     stringstream ss2(str2);
     cont=0;
@@ -128,8 +132,9 @@ int main()
   }
 }
 
-  
-  
+  clock_t end = clock();
+  double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+  cout <<" \n \n Total counting  time was : "<< elapsed_secs/omp_get_num_threads() << " seconds"<< endl;
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
@@ -142,19 +147,13 @@ int main()
   selectionSort(words,indexes,filtered.size());
   
   //Termina el tiempo
-  clock_t end = clock();
-  
+
 
   //Se imprime en orden ascendente los resultados con el articulo.
   for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
-
-  //Se divide el tiempo total entre la cantidad de hilos
-  int threadsQtty = omp_get_num_threads();
-  double elapsed_secs = (double(end - begin) / CLOCKS_PER_SEC)/threadsQtty;
-
-  cout <<" \n \n Total counting time was : "<< elapsed_secs << " seconds"<< endl;
+  
   cout <<" \n \n What word do you want to search for? \n";
   }
 }
