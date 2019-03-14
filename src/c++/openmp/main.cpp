@@ -132,8 +132,8 @@ int main()
   }
   }
 
-  double time = omp_get_wtime() - start_time;
-  cout <<" \n \n Total counting  time was : "<<time  << " seconds"<< endl;
+  double countTime = omp_get_wtime() - start_time;
+  printf("Counting time was : %lf", countTime);
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
