@@ -101,13 +101,17 @@ int main()
   {
   int i = 0;
   int cont = 0;
+  int tid = 0;
   string str = "";
   string str2 = "";
   
   #pragma omp for 
   for(i=0;i < size;i++){
+    tid = omp_get_thread_num();
+    
     str = filtered[i].content;
     str2 = filtered[i].title;
+    cout << "I'm thread number : " << tid << " and im in article : "<<  str2<<endl;
 
     stringstream ss(str);
     stringstream ss2(str2);
