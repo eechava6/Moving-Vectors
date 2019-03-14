@@ -131,6 +131,10 @@ int main()
   words[i]=cont;
   }
 }
+
+  clock_t end = clock();
+  double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+  cout <<" \n \n Total counting time was : "<< elapsed_secs << " seconds"<< endl;
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
@@ -143,14 +147,13 @@ int main()
   selectionSort(words,indexes,filtered.size());
   
   //Termina el tiempo
-  clock_t end = clock();
-  double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
 
   //Se imprime en orden ascendente los resultados con el articulo.
   for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
-  cout <<" \n \n Total searching time was : "<< elapsed_secs << " seconds"<< endl;
+  
   cout <<" \n \n What word do you want to search for? \n";
   }
 }
