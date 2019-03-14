@@ -93,7 +93,7 @@ int main()
   transform(word.begin(),word.end(),word.begin(),::tolower);
   cout<<"Starting search for word : '"<<word << "' ...."<<endl;
   //Comienza a contar el tiempo
-  clock_t begin = clock();
+  double start_time = omp_get_wtime();
   int size = filtered.size();
   
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
@@ -130,11 +130,10 @@ int main()
   //Almacena en un arreglo para luego poder hacer el sort
   words[i]=cont;
   }
-}
+  }
 
-  clock_t end = clock();
-  double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-  cout <<" \n \n Total counting  time was : "<< elapsed_secs/omp_get_num_threads() << " seconds"<< endl;
+  double time = omp_get_wtime() - start_time;
+  cout <<" \n \n Total counting  time was : "<<time  << " seconds"<< endl;
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
