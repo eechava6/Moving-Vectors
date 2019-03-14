@@ -7,6 +7,7 @@
 #include <bits/stdc++.h>
 #include <ctime>
 #include <omp.h>
+
 using namespace std;
 
 struct Columns {
@@ -99,10 +100,9 @@ int main()
   int i = 0;
   int cont = 0;
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
-  #pragma omp parallel private (str,str2,cont,i) shared (size) 
+  #pragma omp parallel private (str,str2,cont) shared (i,size) 
   {
   
-  cout << "There is :"<< omp_get_num_threads()<< " Threads" <<endl;
   #pragma omp for 
   for(i=0;i < size;i++){
     str = filtered[i].content;
@@ -114,10 +114,7 @@ int main()
     //Verifica en el content cuantas repeticiones de la palabra encuentra
       while(ss>>str){
         if(word==str)
-         
            cont++;   
-        
-        
       }
     //Verifica en el title cuantas repeticiones de la palabra encuentra
       while(ss2>>str2){
