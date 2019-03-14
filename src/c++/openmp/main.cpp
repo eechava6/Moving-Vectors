@@ -133,10 +133,10 @@ int main()
   }
 
   double countTime = omp_get_wtime() - start_time;
-  printf("Counting time was : %lf \n", countTime);
+
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
 
-  cout << "Starting ordering..." <<endl;
+  cout << "Starting ordering for word : '"<<word << "' ...."<<endl;
   int startOrder_time = omp_get_wtime();
 
   
@@ -156,8 +156,11 @@ int main()
   for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
+
   int orderTime = omp_get_wtime() - startOrder_time;
-  printf("\n \n Ordering time was : %lf \n", orderTime);
+
+  printf("\n \nCounting time was : %lf \n", countTime);
+  printf("Ordering time was : %lf \n", orderTime);
   cout << "Total time was : " << orderTime + countTime << endl;
   cout <<" \n \n What word do you want to search for? \n";
   }
