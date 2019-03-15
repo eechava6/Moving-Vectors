@@ -30,13 +30,11 @@ void swap(int *xp, int *yp)
   
 void selectionSort(int arr[],int indexes[], int n) 
 { 
-
-        
     int i, j, max = 0; 
-    // One by one move boundary of unsorted subarray 
-    for (i = 0; i < 10; i++) 
+    //Por cada valor del arreglo se itera una vez
+    for (i = 0; i < n-1; i++) 
     { 
-        // Find the maximum element in unsorted array 
+        // Encuentra el valor más grande en un arreglo sin ordenar 
         max = i; 
         for (j = i+1; j < n; j++){
           if (arr[j] > arr[max]) {
@@ -45,7 +43,7 @@ void selectionSort(int arr[],int indexes[], int n)
         } 
           
             
-        // Swap the found minimum element with the first element 
+        // Cambia el máximo con el primero.
         swap(&arr[max], &arr[i]); 
         swap(&indexes[max], &indexes[i]); 
     } 
