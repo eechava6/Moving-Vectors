@@ -9,7 +9,7 @@
 #include <omp.h>
 
 using namespace std;
-
+ 
 struct Columns {
   //Del CSV original conservamos unicamente ID, título y contenido.
 

@@ -6,12 +6,13 @@
 #include <vector>
 #include <bits/stdc++.h>
 #include <ctime>
+#include <omp.h>
+#include <ctime>
 
 using namespace std;
 
 struct Columns {
-  
-  //id,title,publication,author,date,year,month,url,content
+  //Del CSV original conservamos unicamente ID, título y contenido.
 
   int id;
   string title;
@@ -21,7 +22,7 @@ struct Columns {
 
 void swap(int *xp, int *yp) 
 {
-  //Swaps between 2 elements 
+  //Intercambia entre 2 elementos
     int temp = *xp; 
     *xp = *yp; 
     *yp = temp; 
@@ -29,21 +30,22 @@ void swap(int *xp, int *yp)
   
 void selectionSort(int arr[],int indexes[], int n) 
 { 
-    int i, j, min_idx; 
-  
-    // One by one move boundary of unsorted subarray 
-    for (i = 0; i < n-1; i++) 
+    int i, j, max = 0; 
+    //Solo ordenamos hasta tener los 10 primeros valores más grandes
+    for (i = 0; i < 10; i++) 
     { 
-        // Find the minimum element in unsorted array 
-        min_idx = i; 
-        for (j = i+1; j < n; j++) 
-          if (arr[j] < arr[min_idx]) 
-            min_idx = j; 
-            
-        // Swap the found minimum element with the first element 
-        swap(&arr[min_idx], &arr[i]); 
-        swap(&indexes[min_idx], &indexes[i]); 
+        // Encuentra el valor más grande en un arreglo sin ordenar 
+        max = i; 
+        for (j = i+1; j < n; j++){
+          if (arr[j] > arr[max]) {
+            max = j; 
+          }
+        } 
+        // Cambia el máximo con el primero.
+        swap(&arr[max], &arr[i]); 
+        swap(&indexes[max], &indexes[i]); 
     } 
+    
 } 
 
 int main()
@@ -90,64 +92,64 @@ int main()
     }
     //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
   transform(word.begin(),word.end(),word.begin(),::tolower);
-  cout<<"Starting search for word : '"<<word << "' ...."<<endl;
+  cout<<"Starting count for word : '"<<word << "' ...."<<endl;
+
   //Comienza a contar el tiempo
   clock_t begin = clock();
-
-  string str;
-  string str2;
+  int size = filtered.size();
+  
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
-  for(unsigned int i=0;i<filtered.size();i++){
+  int i = 0;
+  int cont = 0;
+  int tid = 0;
+  string str = "";
+  string str2 = "";
+
+  //Por cada articulo se revisa la cantidad de palabras
+  for(i=0;i < size;i++){
     str = filtered[i].content;
     str2 = filtered[i].title;
-
     stringstream ss(str);
     stringstream ss2(str2);
-    int cont=0;
+    cont=0;
     //Verifica en el content cuantas repeticiones de la palabra encuentra
       while(ss>>str){
         if(word==str)
-       cont++;    
+           cont++;   
       }
     //Verifica en el title cuantas repeticiones de la palabra encuentra
       while(ss2>>str2){
         if(word==str2){
-          cont++;
+           cont++;   
         }
   }
   //Almacena en un arreglo para luego poder hacer el sort
   words[i]=cont;
   }
-   //Termina el tiempo de conteo.
-   clock_t end = clock();
-   double countTime = double(end - begin) / CLOCKS_PER_SEC;
+  
 
-  //Comienza la captura de tiempo para el ordenamiento.
-  begin = clock();
-  //Llena un arreglo con los indices de cada articulo (Es decir la poWsición en el arreglo)
+  //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
   }
 
-  /*Se Ejecuta el algoritmo Selection Sorts, ordena de forma Min - Max 
+  /*Se Ejecuta el algoritmo Selection Sorts, ordena de forma Max - Min
   el arreglo words tendrá en orden ascendente los valores de la palabra buscada
   mientras que indexes tendrá los "Intercambios" de posición
   que permiten relacionar los valores con un articulo.*/
   selectionSort(words,indexes,filtered.size());
-
-  //Se imprime en orden ascendente los resultados con el articulo.
-  for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
+  
+  //Se imprime en orden ascendente los 10 primeros resultados con el articulo.
+  for(int i = 0; i < 10; i++){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
 
-  //Termina tiempo para el ordenamiento.
-  end = clock();
-  double orderTime = double(end - begin) / CLOCKS_PER_SEC;
+  //Termina el tiempo para el ordenamiento.
+  clock_t end = clock();
+  double finalTime = (end - begin)/CLOCKS_PER_SEC;
 
-  //Imprime los resultados
-  cout << "Count time was : " <<countTime << endl;
-  cout << "Ordering time was :" <<orderTime << endl;
-  cout << "Total time was : " << orderTime + countTime << endl;
+  //imprime los resultados
+  cout << "Total time was : " << time << endl;
   cout <<" \n \n What word do you want to search for? \n";
   }
 }
