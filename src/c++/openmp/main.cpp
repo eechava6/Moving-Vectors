@@ -11,8 +11,7 @@
 using namespace std;
 
 struct Columns {
-  
-  //id,title,publication,author,date,year,month,url,content
+  //Del CSV original conservamos unicamente ID, título y contenido.
 
   int id;
   string title;
@@ -22,7 +21,7 @@ struct Columns {
 
 void swap(int *xp, int *yp) 
 {
-  //Swaps between 2 elements 
+  //Intercambia entre 2 elementos
     int temp = *xp; 
     *xp = *yp; 
     *yp = temp; 
@@ -31,7 +30,7 @@ void swap(int *xp, int *yp)
 void selectionSort(int arr[],int indexes[], int n) 
 { 
     int i, j, max = 0; 
-    //Por cada valor del arreglo se itera una vez
+    //Solo ordenamos hasta tener los 10 primeros valores más grandes
     for (i = 0; i < 10; i++) 
     { 
         // Encuentra el valor más grande en un arreglo sin ordenar 
@@ -41,8 +40,6 @@ void selectionSort(int arr[],int indexes[], int n)
             max = j; 
           }
         } 
-          
-            
         // Cambia el máximo con el primero.
         swap(&arr[max], &arr[i]); 
         swap(&indexes[max], &indexes[i]); 
@@ -95,8 +92,9 @@ int main()
     //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
   transform(word.begin(),word.end(),word.begin(),::tolower);
   cout<<"Starting count for word : '"<<word << "' ...."<<endl;
+
   //Comienza a contar el tiempo
-  double start_time = omp_get_wtime();
+  double start = omp_get_wtime();
   int size = filtered.size();
   
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
@@ -107,7 +105,7 @@ int main()
   int tid = 0;
   string str = "";
   string str2 = "";
-  
+  //Por cada articulo se revisa la cantidad de palabras (Acá se paraleliza)
   #pragma omp for 
   for(i=0;i < size;i++){
     str = filtered[i].content;
@@ -130,37 +128,28 @@ int main()
   words[i]=cont;
   }
   }
-  //Calcula el tiempo final para el conteo.
-  double countTime = omp_get_wtime() - start_time;
-
-  
-  //Comienza la captura de tiempo para el ordenamiento.
-  cout << "Starting ordering for articles vector"<<endl;
-  double startOrder_time = omp_get_wtime();
 
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
   }
 
-  /*Se Ejecuta el algoritmo Selection Sorts, ordena de forma Min - Max 
+  /*Se Ejecuta el algoritmo Selection Sorts, ordena de forma Max - Min
   el arreglo words tendrá en orden ascendente los valores de la palabra buscada
   mientras que indexes tendrá los "Intercambios" de posición
   que permiten relacionar los valores con un articulo.*/
   selectionSort(words,indexes,filtered.size());
   
-  //Se imprime en orden ascendente los resultados con el articulo.
-  for(int i = 0; i <= 10; i++){
+  //Se imprime en orden ascendente los 10 primeros resultados con el articulo.
+  for(int i = 0; i < 10; i++){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
 
   //Termina el tiempo para el ordenamiento.
-  double orderTime = omp_get_wtime() - startOrder_time;
+  double finalTime = omp_get_wtime() - start;
 
   //imprime los resultados
-  cout << "Count time was : " <<countTime << endl;
-  cout << "Ordering time was :" <<orderTime << endl;
-  cout << "Total time was : " << orderTime + countTime << endl;
+  cout << "Total time was : " << time << endl;
   cout <<" \n \n What word do you want to search for? \n";
   }
 }
