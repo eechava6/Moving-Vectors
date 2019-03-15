@@ -19,34 +19,38 @@ struct Columns {
   string content;
 };
 
-//Código tomado de : https://stackoverflow.com/questions/34752333/parallelize-selection-sort-using-openmp
-struct Compare { int val; int index; };
-#pragma omp declare reduction(maximum : struct Compare : omp_out = omp_in.val > omp_out.val ? omp_in : omp_out)
-void selectionSort(int* arr,int* indexes, int size)
-{
-  for (int i = size - 1; i > 0; --i)
-    {
-        struct Compare max;
-        max.val = arr[i];
-        max.index = i;
-        #pragma omp parallel for reduction(maximum:max)
-        for (int j = i - 1; j >= 0; --j)
-        {
-            if (arr[j] > max.val)
-            {
-                max.val = arr[j];
-                max.index = j;
-            }
-        }
-        int tmp = arr[i];
-        int tmp2 = indexes[i];
-        arr[i] = max.val;
-        indexes[i] = max.val;
 
-        arr[max.index] = tmp;
-        indexes[max.index] = tmp2;
-    }
-  } 
+void swap(int *xp, int *yp) 
+{
+  //Swaps between 2 elements 
+    int temp = *xp; 
+    *xp = *yp; 
+    *yp = temp; 
+} 
+  
+void selectionSort(int arr[],int indexes[], int n) 
+{ 
+
+        
+    int i, j, min_idx = 0; 
+    // One by one move boundary of unsorted subarray 
+    for (i = 0; i < n-1; i++) 
+    { 
+        // Find the minimum element in unsorted array 
+        min_idx = i; 
+        for (j = i+1; j < n; j++){
+          if (arr[j] < arr[min_idx]) {
+            min_idx = j; 
+          }
+        } 
+          
+            
+        // Swap the found minimum element with the first element 
+        swap(&arr[min_idx], &arr[i]); 
+        swap(&indexes[min_idx], &indexes[i]); 
+    } 
+    
+} 
 
 int main()
 {
