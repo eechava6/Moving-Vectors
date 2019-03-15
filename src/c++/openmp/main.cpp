@@ -7,7 +7,6 @@
 #include <bits/stdc++.h>
 #include <ctime>
 #include <omp.h>
-#include<stdio.h> 
 
 using namespace std;
 
@@ -20,58 +19,37 @@ struct Columns {
   string content;
 };
 
-// A utility function to swap two elements 
-void swap(int* a, int* b) 
-{ 
-    int t = *a; 
-    *a = *b; 
-    *b = t; 
+
+void swap(int *xp, int *yp) 
+{
+  //Swaps between 2 elements 
+    int temp = *xp; 
+    *xp = *yp; 
+    *yp = temp; 
 } 
   
-/* This function takes last element as pivot, places 
-   the pivot element at its correct position in sorted 
-    array, and places all smaller (smaller than pivot) 
-   to left of pivot and all greater elements to right 
-   of pivot */
-int partition (int arr[], int indexes[], int low, int high) 
+void selectionSort(int arr[],int indexes[], int n) 
 { 
-    int pivot = arr[high];    // pivot 
-    int i = (low - 1);  // Index of smaller element 
-  
-    for (int j = low; j <= high- 1; j++) 
-    { 
-        // If current element is smaller than or 
-        // equal to pivot 
-        if (arr[j] <= pivot) 
-        { 
-            i++;    // increment index of smaller element 
-            swap(&indexes[i],&indexes[j]);
-            swap(&arr[i], &arr[j]); 
-        } 
-    } 
-    swap(&arr[i + 1], &arr[high]); 
-    swap(&indexes[i + 1], &indexes[high]); 
-    return (i + 1); 
-} 
-  
-/* The main function that implements QuickSort 
- arr[] --> Array to be sorted, 
-  low  --> Starting index, 
-  high  --> Ending index */
-void quickSort(int arr[],int indexes[], int low, int high) 
-{ 
-    if (low < high) 
-    { 
-        /* pi is partitioning index, arr[p] is now 
-           at right place */
+
         
-        int pi = partition(arr,indexes, low, high); 
-  
-        // Separately sort elements before 
-        // partition and after partition 
-        quickSort(arr,indexes, low, pi - 1); 
-        quickSort(arr,indexes, pi + 1, high); 
+    int i, j, min_idx = 0; 
+    // One by one move boundary of unsorted subarray 
+    for (i = 0; i < n-1; i++) 
+    { 
+        // Find the minimum element in unsorted array 
+        min_idx = i; 
+        for (j = i+1; j < n; j++){
+          if (arr[j] < arr[min_idx]) {
+            min_idx = j; 
+          }
+        } 
+          
+            
+        // Swap the found minimum element with the first element 
+        swap(&arr[min_idx], &arr[i]); 
+        swap(&indexes[min_idx], &indexes[i]); 
     } 
+    
 } 
 
 int main()
@@ -171,7 +149,7 @@ int main()
   el arreglo words tendrá en orden ascendente los valores de la palabra buscada
   mientras que indexes tendrá los "Intercambios" de posición
   que permiten relacionar los valores con un articulo.*/
-  quickSort(words,indexes,0,filtered.size());
+  selectionSort(words,indexes,filtered.size());
   
   //Se imprime en orden ascendente los resultados con el articulo.
   for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
