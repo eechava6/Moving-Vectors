@@ -32,22 +32,22 @@ void selectionSort(int arr[],int indexes[], int n)
 { 
 
         
-    int i, j, min_idx = 0; 
+    int i, j, max = 0; 
     // One by one move boundary of unsorted subarray 
-    for (i = 0; i < n-1; i++) 
+    for (i = 0; i < 10; i++) 
     { 
-        // Find the minimum element in unsorted array 
-        min_idx = i; 
+        // Find the maximum element in unsorted array 
+        max = i; 
         for (j = i+1; j < n; j++){
-          if (arr[j] < arr[min_idx]) {
-            min_idx = j; 
+          if (arr[j] > arr[max]) {
+            max = j; 
           }
         } 
           
             
         // Swap the found minimum element with the first element 
-        swap(&arr[min_idx], &arr[i]); 
-        swap(&indexes[min_idx], &indexes[i]); 
+        swap(&arr[max], &arr[i]); 
+        swap(&indexes[max], &indexes[i]); 
     } 
     
 } 
