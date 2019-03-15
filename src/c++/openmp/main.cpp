@@ -32,7 +32,7 @@ void selectionSort(int arr[],int indexes[], int n)
 { 
     int i, j, max = 0; 
     //Por cada valor del arreglo se itera una vez
-    for (i = 0; i < n-1; i++) 
+    for (i = 0; i < 10; i++) 
     { 
         // Encuentra el valor más grande en un arreglo sin ordenar 
         max = i; 
@@ -150,7 +150,7 @@ int main()
   selectionSort(words,indexes,filtered.size());
   
   //Se imprime en orden ascendente los resultados con el articulo.
-  for(int i = filtered.size()-1; i >= filtered.size()-10; i--){
+  for(int i = 0; i <= 10; i++){
      cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
   }
 
