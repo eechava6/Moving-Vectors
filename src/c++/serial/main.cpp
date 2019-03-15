@@ -95,7 +95,7 @@ int main()
   cout<<"Starting count for word : '"<<word << "' ...."<<endl;
 
   //Comienza a contar el tiempo
-  clock_t begin = clock();
+  const clock_t begin_time = clock();
   int size = filtered.size();
   
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
@@ -145,12 +145,11 @@ int main()
   }
 
   //Termina el tiempo para el ordenamiento.
-  clock_t end = clock();
-  double finalTime = (end - begin)/CLOCKS_PER_SEC;
-
+ 
+  float total = float( clock () - begin_time ) /  CLOCKS_PER_SEC;
   //imprime los resultados
-  cout << "Total time was : " << time << endl;
-  cout <<" \n \n What word do you want to search for? \n";
+  cout << "\n \n Total time was : " << total << endl;
+  cout <<" What word do you want to search for? \n";
   }
 }
 

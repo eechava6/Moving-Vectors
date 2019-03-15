@@ -91,12 +91,13 @@ int main()
     }
     //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
   transform(word.begin(),word.end(),word.begin(),::tolower);
-  cout<<"Starting count for word : '"<<word << "' ...."<<endl;
+  cout<<"Starting search for word : '"<<word << "' ...."<<endl;
 
   //Comienza a contar el tiempo
   double start = omp_get_wtime();
   int size = filtered.size();
   
+
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
   #pragma omp parallel 
   {
@@ -147,10 +148,9 @@ int main()
 
   //Termina el tiempo para el ordenamiento.
   double finalTime = omp_get_wtime() - start;
-
   //imprime los resultados
-  cout << "Total time was : " << time << endl;
-  cout <<" \n \n What word do you want to search for? \n";
+  cout <<" \n \n Total time was : " << finalTime << endl; 
+  cout <<" What word do you want to search for? "<<endl;
   }
 }
 
