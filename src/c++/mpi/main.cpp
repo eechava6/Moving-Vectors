@@ -21,6 +21,12 @@ struct Columns {
   string content;
 };
 
+struct Result {
+  //Del CSV original conservamos unicamente ID, título y contenido
+  int count;
+  string title;
+};
+
 
 void swap(int *xp, int *yp) 
 {
@@ -134,10 +140,14 @@ int* conteo(vector<Columns> filtered,string word){
   selectionSort(words,indexes,filtered.size());
     
   //Se imprime en orden ascendente los 10 primeros resultados con el articulo.
-  int* results = new int[10];
+  int* results = new int[20];
   for(int i = 0; i < 10;i++){
     results[i] = indexes[i];
   }
+  for(int i = 10; i < 20;i++){
+    results[i] = words[i-10];
+  }
+
   return results;
 }
 
@@ -202,19 +212,19 @@ int main(int argc, char *argv[])
     
     //Espera hasta que se le envien los resultados
     for (i=1; i<=numworkers; i++){
-      int* b = new int[10];
+      int* b = new int[20];
       source = i;
-      MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
+      MPI_Recv(b, 20, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
 
       if(i == 1){
         for(int i = 0; i < 10; i++){
-          cout << "found in : '"<< filtered2[b[i]].title <<"'"<< endl;
+          cout << b[i+10] << " times found in : '"<< filtered2[b[i]].title <<"'"<< endl;
         }
       }
-
+ 
       if(i == 2){
         for(int i = 0; i < 10; i++){
-          cout << "found in : '"<< filtered3[b[i]].title <<"'"<< endl;
+          cout << b[i+10] << " times found in : '"<< filtered3[b[i]].title <<"'"<< endl;
         }
       }
     }
@@ -235,9 +245,8 @@ int main(int argc, char *argv[])
     int *indexes;
     indexes=conteo(filtered,word_slaveo);
     //Envio de resultados
-
     cout<<"Sending to the master from 1"<<endl;
-    MPI_Send(indexes, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);    
+    MPI_Send(indexes, 20, MPI_INT, 0, 2, MPI_COMM_WORLD);    
   }
   else if (taskid == 2) {
     //Reservar el tamaño para el mensaje
@@ -252,9 +261,8 @@ int main(int argc, char *argv[])
     string word_slaveo =inmsg;
     int *indexes;
     indexes=conteo(filtered,word_slaveo);
-
     cout<<"Sending to the master from 2"<<endl;
-    MPI_Send(indexes, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);  
+    MPI_Send(indexes, 20, MPI_INT, 0, 2, MPI_COMM_WORLD);  
   }
 MPI_Finalize();
 
