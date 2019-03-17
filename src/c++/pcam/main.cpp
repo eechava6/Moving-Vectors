@@ -7,8 +7,7 @@
 #include <bits/stdc++.h>
 #include <ctime>
 #include "mpi.h"
-#include <ctime>
-
+#include <omp.h>
 MPI_Status status;
 
 using namespace std;
@@ -94,12 +93,15 @@ int* conteo(vector<Columns> filtered,string word){
   int size = filtered.size();
   
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
+  #pragma omp parallel 
+  {
   int i = 0;
   int cont = 0;
   string str = "";
   string str2 = "";
 
   //Por cada articulo se revisa la cantidad de palabras
+  #pragma omp for 
   for(i=0;i < size;i++){
     str = filtered[i].content;
     str2 = filtered[i].title;
@@ -120,7 +122,7 @@ int* conteo(vector<Columns> filtered,string word){
     //Almacena en un arreglo para luego poder hacer el sort
     words[i]=cont;
   }
-
+  }
 
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(unsigned int i = 0; i < filtered.size(); i++){
