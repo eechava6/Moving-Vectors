@@ -224,7 +224,7 @@ int main(int argc, char *argv[])
   }
   if (taskid == 0) {
     for(int i = 0; i < 10; i++){
-      cout << filtered[indexes1[i]]  <<  " jeje" << endl;
+      cout << indexes1[i]  <<  " jeje" << endl;
     }
   }
 MPI_Finalize();
