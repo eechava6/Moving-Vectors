@@ -157,6 +157,12 @@ int main(int argc, char *argv[])
   MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
   MPI_Get_processor_name(name, &len);
   numworkers = numtasks-1;
+  vector<Columns> filtered;
+  vector<Columns> filtered2;
+  vector<Columns> filtered3;
+  int *indexes1;
+  int *indexes2;
+  int *indexes3;
   //Para después jeje const 
   /*
     clock_t begin_time = clock();
@@ -188,10 +194,8 @@ int main(int argc, char *argv[])
       MPI_Send(&char_array,strlen(char_array),MPI_CHAR,dest,1,MPI_COMM_WORLD);
     }
     //Haga el conteo del archivo "Results1.csv"
-    vector<Columns> filtered;
     filtered = archivos("results1.csv");
     //Recibe los 10 primeros mayores
-    int *indexes1;
     indexes1=conteo(filtered,word);
    }
   else if (taskid == 1) {
@@ -201,10 +205,8 @@ int main(int argc, char *argv[])
     MPI_Recv(&inmsg,30, MPI_CHAR, 0, 1, MPI_COMM_WORLD,  MPI_STATUS_IGNORE);
     printf("Slave 1 on processor %s listening for Tag2 received this  message:\n   %s\n",name,inmsg);
     //Haga el conteo del archivo "Results2.csv"
-    vector<Columns> filtered2;
     filtered2 = archivos("results2.csv");
     //Recibe los 10 primeros mayores
-    int *indexes2;
     string word_slaveo =inmsg;
     indexes2=conteo(filtered2,word_slaveo);
   }
@@ -215,16 +217,14 @@ int main(int argc, char *argv[])
     MPI_Recv(&inmsg,30, MPI_CHAR, 0, 1, MPI_COMM_WORLD,  MPI_STATUS_IGNORE);
     printf("Slave 2 on processor %s listening for Tag2 received this  message:\n   %s\n",name,inmsg);
     //Haga el conteo del archivo "Results2.csv"
-    vector<Columns> filtered3;
     filtered3 = archivos("results3.csv");
     //Recibe los 10 primeros mayores
-    int *indexes3;
     string word_slaveo =inmsg;
     indexes3=conteo(filtered3,word_slaveo);
   }
   if (taskid == 0) {
     for(int i = 0; i < 10; i++){
-      cout << filtered[results1[i]]  <<  " jeje" << endl;
+      cout << filtered[indexes1[i]]  <<  " jeje" << endl;
     }
   }
 MPI_Finalize();
