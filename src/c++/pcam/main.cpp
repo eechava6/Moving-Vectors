@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
     if(word=="/"){
       return 0;
     }
-    start = MPI_Wtime();
+    double start = MPI_Wtime();
     //Calcule la longitud para luego crear un arreglo de Chars del string
     int n = word.length();  
     char char_array[n + 1];  
