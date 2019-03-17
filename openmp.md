@@ -25,9 +25,11 @@ elprocesamiento paralelo, para la lectura del archivo no se agrego porque se vio
 para elordenamiento es imposible porque es necesario el resultado anterior parapoder comparar cual es el mayor.
 Por tanto:
 
-  *Lectura de archivo (Se puede paralelizar con OpenMP pero no muestra mejora).
-  *Conteo de palabras (Fue posible su paralelización con OpenMP y muestra mejora significativa).
-  *Ordenamiento (No se puede ralizar con OpenMP)
+* Lectura de archivo (Se puede paralelizar con OpenMP pero no muestra mejora).
+
+* Conteo de palabras (Fue posible su paralelización con OpenMP y muestra mejora significativa).
+
+* Ordenamiento (No se puede ralizar con OpenMP)
   
 Estas son las fases del algoritmo de Text-Analytics.
 ## 1.2 ¿Cómo funciona el algoritmo?
