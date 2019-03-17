@@ -9,6 +9,8 @@
 #include "mpi.h"
 #include <ctime>
 
+MPI_Status status;
+
 using namespace std;
 
 struct Columns {
@@ -46,23 +48,16 @@ void selectionSort(int arr[],int indexes[], int n)
         swap(&indexes[max], &indexes[i]); 
     } 
     
-} 
-
-int main()
-{
-  MPI_Init(&argc, &argv);
-  MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
-  MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
-
-  ifstream fin("results.csv");
+}
+//Funcion creada para la lectura del archivo csv enviado 
+vector<Columns> archivos(string nombre){
+vector<Columns> filtered;  
+ ifstream fin(nombre.c_str());
   if (!fin)
     {
       cout << "File not open\n";
-      return 1;
-    }
-  
-  vector<Columns> filtered;
-    
+      return filtered;
+    }    
   string line;
   string word;
   string token, mystring;
@@ -86,14 +81,12 @@ int main()
       }
     
     }
-  
-  int words[filtered.size()+1];
+  return filtered;
+}
+//Funcion que hace el conteo de la paabra enviada
+int * conteo(vector<Columns> filtered,string word){
+int words[filtered.size()+1];
   int indexes[filtered.size()+1];
-  cout << "What word do you want to search for? \n";
-  while(cin>>word){
-    if(word=="/"){
-      return 0;
-    }
     //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
   transform(word.begin(),word.end(),word.begin(),::tolower);
   cout<<"Starting count for word : '"<<word << "' ...."<<endl;
@@ -153,7 +146,60 @@ int main()
   float total = float( clock () - begin_time ) /  CLOCKS_PER_SEC;
   //imprime los resultados
   cout << "\n \n Total time was : " << total << endl;
+  return words;
   cout <<" What word do you want to search for? \n";
-  }
 }
 
+
+
+int main(int argc, char *argv[])
+{
+  char inmsg[30];
+  string line;
+  string word;
+  int i=0;
+  int taskid,numtasks,len,numworkers,dest;
+  char name[MPI_MAX_PROCESSOR_NAME];
+  MPI_Init(&argc, &argv);
+  MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
+  MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
+  MPI_Get_processor_name(name, &len);
+  numworkers = numtasks-1;
+  //cout<<numworkers<<endl;
+  cout << "What word do you want to search for? \n";
+  //cin >> word;
+   if (taskid == 0) {
+    cout<<"Im in 0"<<endl;
+    cin>>word;
+      if(word=="/")
+	return 0;
+    int n = word.length();  
+    char char_array[n + 1];  
+    strcpy(char_array, word.c_str()); 
+    for (dest=1; dest<=numworkers; dest++)
+    MPI_Send(&char_array,strlen(char_array),MPI_CHAR,dest,1,MPI_COMM_WORLD);
+    vector<Columns> filtered;
+    filtered = archivos("results1.csv");
+   }
+  else if (taskid == 1) {
+    //cout<<"Im in 1"<<endl;
+    memset(inmsg, 0, 30);
+    MPI_Recv(&inmsg,30, MPI_CHAR, 0, 1, MPI_COMM_WORLD,  MPI_STATUS_IGNORE);
+    printf("Slave 1 on processor %s listening for Tag2 received this  message:\n   %s\n",name,inmsg);
+    vector<Columns> filtered;
+filtered = archivos("results2.csv");
+ int *numeros;
+ string word_slaveo =inmsg;
+ numeros=conteo(filtered,word_slaveo);
+  }
+  else if (taskid == 2) {
+    //cout<<"Im in 2"<<endl;
+    memset(inmsg, 0, 30);
+    MPI_Recv(&inmsg,30, MPI_CHAR, 0, 1, MPI_COMM_WORLD,  MPI_STATUS_IGNORE);
+    printf("Slave 2 on processor %s listening for Tag2 received this  message:\n   %s\n",name,inmsg);
+    vector<Columns> filtered;
+filtered = archivos("results2.csv");
+}
+MPI_Finalize();
+
+}  
