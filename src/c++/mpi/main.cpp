@@ -233,11 +233,11 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
     int *indexes;
-    indexes=conteo(filtered2,word_slaveo);
+    indexes=conteo(filtered,word_slaveo);
     //Envio de resultados
 
     cout<<"Sending to the master from 1"<<endl;
-    MPI_Send(indexes2, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);    
+    MPI_Send(indexes, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);    
   }
   else if (taskid == 2) {
     //Reservar el tamaño para el mensaje
@@ -251,10 +251,10 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
     int *indexes;
-    indexes=conteo(filtered3,word_slaveo);
+    indexes=conteo(filtered,word_slaveo);
 
     cout<<"Sending to the master from 2"<<endl;
-    MPI_Send(indexes3, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);  
+    MPI_Send(indexes, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);  
   }
 MPI_Finalize();
 
