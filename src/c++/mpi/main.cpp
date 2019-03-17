@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
   char inmsg[30];
   string word;
   int i=0;
-  int taskid,numtasks,len,numworkers,dest;
+  int taskid,numtasks,len,numworkers,dest,source;
   char name[MPI_MAX_PROCESSOR_NAME];
   MPI_Init(&argc, &argv);
   MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
@@ -197,6 +197,17 @@ int main(int argc, char *argv[])
     filtered = archivos("results1.csv");
     //Recibe los 10 primeros mayores
     indexes1=conteo(filtered,word);
+    //Espera hasta que se le envien los resultados
+    for (i=1; i<=numworkers; i++)
+      {
+	int *b = (int *) malloc(sizeof(int));
+	source = i;
+	MPI_Recv(b, 1, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
+	for(int i = 0; i < 10; i++){
+	  cout << b[i]  <<  " jeje" << endl;
+	}
+ break;
+      }
    }
   else if (taskid == 1) {
     //Reservar el tamaño para el mensaje
@@ -209,6 +220,10 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
     indexes2=conteo(filtered2,word_slaveo);
+    //Envio de resultados
+cout<<"Sending to the master"<<endl;    
+MPI_Send(indexes2, 1, MPI_INT, 0, 2, MPI_COMM_WORLD);
+    
   }
   else if (taskid == 2) {
     //Reservar el tamaño para el mensaje
@@ -221,11 +236,6 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
     indexes3=conteo(filtered3,word_slaveo);
-  }
-  if (taskid == 0) {
-    for(int i = 0; i < 10; i++){
-      cout << indexes1[i]  <<  " jeje" << endl;
-    }
   }
 MPI_Finalize();
 
