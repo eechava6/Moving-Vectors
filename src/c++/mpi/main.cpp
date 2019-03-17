@@ -96,7 +96,6 @@ int* conteo(vector<Columns> filtered,string word){
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
   int i = 0;
   int cont = 0;
-  int tid = 0;
   string str = "";
   string str2 = "";
 
@@ -124,7 +123,7 @@ int* conteo(vector<Columns> filtered,string word){
 
 
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
-  for(int i = 0; i < filtered.size(); i++){
+  for(unsigned int i = 0; i < filtered.size(); i++){
     indexes[i] = i;
   }
 
@@ -157,12 +156,8 @@ int main(int argc, char *argv[])
   MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
   MPI_Get_processor_name(name, &len);
   numworkers = numtasks-1;
-  vector<Columns> filtered;
-  vector<Columns> filtered2;
-  vector<Columns> filtered3;
-  int *indexes1;
-  int *indexes2;
-  int *indexes3;
+
+  
   //Para después jeje const 
   /*
     clock_t begin_time = clock();
@@ -194,16 +189,23 @@ int main(int argc, char *argv[])
       MPI_Send(&char_array,strlen(char_array),MPI_CHAR,dest,1,MPI_COMM_WORLD);
     }
     //Haga el conteo del archivo "Results1.csv"
+    vector<Columns> filtered;
+    vector<Columns> filtered2;
+    vector<Columns> filtered3;
+
     filtered = archivos("results1.csv");
     filtered2 = archivos("results2.csv");
     filtered3 = archivos("results3.csv");
     //Recibe los 10 primeros mayores
-    indexes1=conteo(filtered,word);
+    int *indexes = new int[30];
+    indexes=conteo(filtered,word);
+    
     //Espera hasta que se le envien los resultados
     for (i=1; i<=numworkers; i++){
       int* b = new int[10];
       source = i;
       MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
+
       if(i == 1){
         for(int i = 0; i < 10; i++){
           cout << "found in : '"<< filtered2[b[i]].title <<"'"<< endl;
@@ -226,10 +228,12 @@ int main(int argc, char *argv[])
     MPI_Recv(&inmsg,30, MPI_CHAR, 0, 1, MPI_COMM_WORLD,  MPI_STATUS_IGNORE);
     printf("Slave 1 on processor %s listening for Tag2 received this  message:\n   %s\n",name,inmsg);
     //Haga el conteo del archivo "Results2.csv"
-    filtered2 = archivos("results2.csv");
+    vector<Columns> filtered;
+    filtered = archivos("results2.csv");
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
-    indexes2=conteo(filtered2,word_slaveo);
+    int *indexes;
+    indexes=conteo(filtered2,word_slaveo);
     //Envio de resultados
 
     cout<<"Sending to the master from 1"<<endl;
@@ -242,10 +246,12 @@ int main(int argc, char *argv[])
     MPI_Recv(&inmsg,30, MPI_CHAR, 0, 1, MPI_COMM_WORLD,  MPI_STATUS_IGNORE);
     printf("Slave 2 on processor %s listening for Tag2 received this  message:\n   %s\n",name,inmsg);
     //Haga el conteo del archivo "Results2.csv"
-    filtered3 = archivos("results3.csv");
+    vector<Columns> filtered;
+    filtered = archivos("results3.csv");
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
-    indexes3=conteo(filtered3,word_slaveo);
+    int *indexes;
+    indexes=conteo(filtered3,word_slaveo);
 
     cout<<"Sending to the master from 2"<<endl;
     MPI_Send(indexes3, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);  
