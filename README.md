@@ -11,10 +11,6 @@ Proyecto 2 tópicos en telemática.
 
 * [Algoritmo Paralelo con OpenMP](openmp.md)
 
-# 3. Algoritmo Paralelo con MPI
-
-* [Algoritmo Paralelo con MPI](mpi.md)
-
-# 4. PCAM
+# 3. PCAM
 
 * [PCAM](pcam.md)
