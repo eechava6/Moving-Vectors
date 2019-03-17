@@ -19,7 +19,7 @@ Se filtran los archivos usando unicamente las columnas 1,2 y 9 que corresponden 
 
 Title y Content se transforman a lowercase(Minúsculas) para no ignorar una palabra si se encuentra en minúsucula, mayúscula o mixto, después de esto se concatenan los 3 archivos en uno solo llamado Results.csv.
 
-Para el algorimo de c++ sehace la lectura del archivo y se procede a crear una struct que sera cada noticia que tiene como argumentos
+Para el algorimo de c++ se hace la lectura del archivo y se procede a crear una struct que sera cada noticia que tiene como argumentos
 * 'id'
 * 'title'
 * 'content'
