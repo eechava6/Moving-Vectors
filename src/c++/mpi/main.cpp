@@ -62,7 +62,7 @@ vector<Columns> filtered;
   string word;
   string token, mystring;
   const char delim = ';';
-  int i = 0;
+  //int i = 0;
   //lee el csv ya procesado por python  
  
   while (getline(fin, line))
@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
     filtered = archivos("results1.csv");
     //Recibe los 10 primeros mayores
     int *indexes1;
-    indexes=conteo(filtered,word);
+    indexes1=conteo(filtered,word);
    }
   else if (taskid == 1) {
     //Reservar el tamaño para el mensaje
@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     int *indexes2;
     string word_slaveo =inmsg;
-    indexes=conteo(filtered2,word_slaveo);
+    indexes2=conteo(filtered2,word_slaveo);
   }
   else if (taskid == 2) {
     //Reservar el tamaño para el mensaje
@@ -220,7 +220,7 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     int *indexes3;
     string word_slaveo =inmsg;
-    indexes=conteo(filtered3,word_slaveo);
+    indexes3=conteo(filtered3,word_slaveo);
   }
   if (taskid == 0) {
     for(int i = 0; i < 10; i++){
