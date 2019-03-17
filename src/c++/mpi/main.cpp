@@ -226,10 +226,11 @@ int main(int argc, char *argv[])
         for(int i = 0; i < 10; i++){
           cout << b[i+10] << " times found in : '"<< filtered2[b[i]].title <<"'"<< endl;
         }
+
         for(int j = 0; j < 10; j++){
           //Guarda en diferentes posiciones los valores del conteo.
           counts[j]= b[j+10];
-          names[j] = filtered2[b[i]].title;
+          names[j] = filtered2[b[j]].title;
        }
       }
  
@@ -240,7 +241,7 @@ int main(int argc, char *argv[])
         for(int j = 0; j < 10; j++){
           //Guarda en diferentes posiciones los valores del conteo.
           counts[j+10]= b[j+10];
-          names[j+10] = filtered3[b[i]].title;
+          names[j+10] = filtered3[b[j]].title;
        }
       }
     }
