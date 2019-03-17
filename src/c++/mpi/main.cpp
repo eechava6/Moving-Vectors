@@ -21,12 +21,6 @@ struct Columns {
   string content;
 };
 
-struct Result {
-  //Del CSV original conservamos unicamente ID, título y contenido
-  int count;
-  string title;
-};
-
 
 void swap(int *xp, int *yp) 
 {
@@ -215,6 +209,7 @@ int main(int argc, char *argv[])
     //Para los resultados totales. 
     string names[30];
     int* counts = new int[30];
+    int resultIndexes = new int[30];
 
     //Espera hasta que se le envien los resultados
     for (i=1; i<=2; i++){
@@ -225,6 +220,7 @@ int main(int argc, char *argv[])
       if(i == 1){
         for(int j = 0; j < 10; j++){
           //Guarda en diferentes posiciones los valores del conteo.
+          resultIndexes[j] = j;
           counts[j]= b[j+10];
           names[j] = filtered2[b[j]].title;
        }
@@ -233,21 +229,27 @@ int main(int argc, char *argv[])
       if(i == 2){
         for(int j = 0; j < 10; j++){
           //Guarda en diferentes posiciones los valores del conteo.
+          resultIndexes[j+10] = j+10;
           counts[j+10]= b[j+10];
           names[j+10] = filtered3[b[j]].title;
        }
       }
     }
 
-    //Guarda los 10 resultados del archivo uno en el total.
+    //Guarda los 10 resultados del archivo1 en el total.
     for(int i = 0; i < 10; i++){
-          counts[i+20] = indexes[i+10];
-          names[i+20] = filtered[indexes[i]].title;
+      resultIndexes[i+20] = i+20;
+      counts[i+20] = indexes[i+10];
+      names[i+20] = filtered[indexes[i]].title;
     }
 
-    for(int i = 0; i < 30; i++){
+    //Ordena los 10 primeros
+    selectionSort(counts,resultIndexes,30);
+
+    //Imprime los resultados
+    for(int i = 0; i < 10; i++){
           //Imprime todo
-          cout << counts[i] << " times found in : " << names[i] << endl;
+          cout << counts[i] << " times found in : " << names[resultIndexes[i]] << endl;
     }
 
   }
