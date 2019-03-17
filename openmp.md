@@ -8,6 +8,9 @@ Se tiene un conjunto de noticias en texto libre, sobre el cual se desea calcular
         id = id de la noticia
         title = título de la noticia.
 
+### Entendimiento del problema
+![](./openmp.png)
+
 # 1. Análisis
 ## 1.1 Descripción
 
@@ -36,12 +39,14 @@ Por tanto:
 
 * Lectura de archivo (Se puede paralelizar con OpenMP pero no muestra mejora).
 
-* ** Conteo de palabras ** (Fue posible su paralelización con OpenMP y muestra mejora significativa).
+* Conteo de palabras (Fue posible su paralelización con OpenMP y muestra mejora significativa).
 
 * Ordenamiento (No se puede ralizar con OpenMP debido a la dependencia entre las transiciones)
   
 Estas son las fases del algoritmo de Text-Analytics.
-## 1.2 ¿Cómo funciona el algoritmo?
+
+
+## 1.3 ¿Cómo funciona el algoritmo?
  
 * Se debe descargar del github el proyecto
         
