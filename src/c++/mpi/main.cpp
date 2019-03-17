@@ -202,6 +202,7 @@ int main(int argc, char *argv[])
     //Espera hasta que se le envien los resultados
     for (i=1; i<=numworkers; i++)
       {
+
 	int* b = new int[10];
 	source = i;
 	MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
@@ -218,6 +219,7 @@ int main(int argc, char *argv[])
 	break;
       }
   }
+
   else if (taskid == 1) {
     //Reservar el tamaño para el mensaje
     memset(inmsg, 0, 30);
@@ -230,11 +232,9 @@ int main(int argc, char *argv[])
     string word_slaveo =inmsg;
     indexes2=conteo(filtered2,word_slaveo);
     //Envio de resultados
+
     cout<<"Sending to the master"<<endl;
-    MPI_Send(indexes2, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);
-    
-    
-    
+    MPI_Send(indexes2, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);    
   }
   else if (taskid == 2) {
     //Reservar el tamaño para el mensaje
