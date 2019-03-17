@@ -28,7 +28,7 @@ Aqui se deben hacer el pre procesamiento de los datos para que nuestro algoritmo
 Una vez ejecutado la anterior linea, nos quedara un archivo csv llamado results que contiene todas las noticias separadas por ";" y en minusculas
 El siguiente paso es compilar el programa MPI en c++
       
-       [user@hdpmaster Text-Analytics]$ mpicc src/c++/mpi/main.cpp -lstdc++ -o mpi
+       [user@hdpmaster Text-Analytics]$ mpicc src/c++/pcam/main.cpp -lstdc++ -o mpi -fopenmp
 
 Y para ejecutarlo simplemente se ejecuta lo siguiente:
 
