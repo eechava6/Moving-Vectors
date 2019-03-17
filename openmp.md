@@ -15,7 +15,7 @@ La función del algoritmo, es dado 3 documentos que contienen diferentes noticia
 
 Inicialmente se utilizó una técnica de Pre-procesamiento en python dado que c++ no provee una herramienta que permita la lectura de CSV especificamente.
 
-Se filtran los archivos usando unicamente las columnas **1,2 y 9 ** que corresponden al **'Id','title' y 'content'** respectivamente.
+Se filtran los archivos usando unicamente las columnas ** 1,2 y 9 ** que corresponden al **'Id','title' y 'content'** respectivamente.
 
 **Title** y **Content** se transforman a lowercase(Minúsculas) para no ignorar una palabra si se encuentra en minúsucula, mayúscula o mixto, después de esto se concatenan los 3 archivos en uno solo llamado Results.csv.
 
