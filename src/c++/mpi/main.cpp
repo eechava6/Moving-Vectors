@@ -136,7 +136,7 @@ int* conteo(vector<Columns> filtered,string word){
     
   //Se imprime en orden ascendente los 10 primeros resultados con el articulo.
   int* results = new int[10];
-  for(int i = 0; i < 10; i = i++){
+  for(int i = 0; i < 10;i++){
     results[i] = indexes[i];
   }
   return results;
@@ -200,24 +200,16 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     indexes1=conteo(filtered,word);
     //Espera hasta que se le envien los resultados
-    int* finalResult = new int[30];
-
-    for (i=1; i<=numworkers; i++)
-      {
-
+    for (i=1; i<=numworkers; i++){
       int* b = new int[10];
       source = i;
       MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
-
-      for(int j = 0; i < 10; i++){
-        finalResult[(i*10)+j] = b[j];
-      }
-      
       if(i == 1){
         for(int i = 0; i < 10; i++){
           cout << "found in : '"<< filtered2[b[i]].title <<"'"<< endl;
         }
       }
+
       if(i == 2){
         for(int i = 0; i < 10; i++){
           cout << "found in : '"<< filtered3[b[i]].title <<"'"<< endl;
