@@ -9,7 +9,7 @@ Se tiene un conjunto de noticias en texto libre, sobre el cual se desea calcular
         title = título de la noticia.
 
 ### Entendimiento del problema
-![](./openmp.png)
+![](./openmp.jpg)
 
 # 1. Análisis
 ## 1.1 Descripción
