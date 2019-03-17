@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
     int* counts = new int[30];
 
     //Espera hasta que se le envien los resultados
-    for (i=1; i<=numworkers; i++){
+    for (i=1; i<=2; i++){
       int* b = new int[20];
       source = i;
       MPI_Recv(b, 20, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
