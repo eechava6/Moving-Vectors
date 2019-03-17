@@ -1,4 +1,4 @@
-# Descripción del Algoritmo Serial
+# Descripción del Algoritmo Paralelo con OpenMP
 
 Se tiene un conjunto de noticias en texto libre, sobre el cual se desea calcular:
 
@@ -45,8 +45,11 @@ Por tanto:
   
 Estas son las fases del algoritmo de Text-Analytics.
 
+## 1.2 Grafo de dependencias.
 
-## 1.3 ¿Cómo funciona el algoritmo?
+![](./dependency.jpg)
+
+## 1.2 ¿Cómo funciona el algoritmo?
  
 * Se debe descargar del github el proyecto
         
