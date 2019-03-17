@@ -28,44 +28,52 @@ Se tiene un vector que almacena todas estas noticias ya procesadas, luego se hac
 
 Finalmente, se realiza el conteo de la palabra en las columnas de 'title' y 'content' por cada noticia, para luego dar paso al ordenamiento a través del algoritmo **"SelectionSort"** y la impresión de los resultados 10 primeros resultados del algoritmo.
 
-Este es el basico de funcionamiento del algoritmo entonces para OpenMP se agregaron el uso de procesamiento paralelo en la sección del conteo 
-de las palabras, el cual es independiente de cualquiera de los otros procesos del algoritmo, por tanto es la unica parte donde se pudo realizar
-elprocesamiento paralelo, para la lectura del archivo no se agrego porque se vio innecesario y además agregaba más tiempo de ejecución,
-para elordenamiento es imposible porque es necesario el resultado anterior parapoder comparar cual es el mayor.
+Para OpenMP se agregaron el uso de procesamiento paralelo en la sección del ** conteo de las palabras ** , el cual es independiente de cualquiera de los otros procesos del algoritmo, por tanto es la unica parte donde se pudo realizar
+el procesamiento paralelo, para la lectura del archivo no se agrego porque agregaba más tiempo de ejecución en vez de reducirlo,
+para el ordenamiento no es posible dado que para adquirir un arreglo ordenado, es necesario realizar una serie de iteraciones sobre ese mismo arreglo que lo vuelve dependiente de un estado inmediatamente anterior, por lo que aún con hilos, se ejecutaria serialmente. 
+
 Por tanto:
 
 * Lectura de archivo (Se puede paralelizar con OpenMP pero no muestra mejora).
 
-* Conteo de palabras (Fue posible su paralelización con OpenMP y muestra mejora significativa).
+* ** Conteo de palabras ** (Fue posible su paralelización con OpenMP y muestra mejora significativa).
 
-* Ordenamiento (No se puede ralizar con OpenMP)
+* Ordenamiento (No se puede ralizar con OpenMP debido a la dependencia entre las transiciones)
   
 Estas son las fases del algoritmo de Text-Analytics.
 ## 1.2 ¿Cómo funciona el algoritmo?
  
- Se debe descargar del github el proyecto
+* Se debe descargar del github el proyecto
         
         [user@hdpmaster]$ git clone https://github.com/eechava6/Text-Analytics.git
 
-Luego se accede al directorio para empezar a trabajar sobre este
+* Luego se accede al directorio para empezar a trabajar sobre este
       
        [user@hdpmaster]$ cd Text-Analytics/
        
-Aqui se deben hacer el pre procesamiento de los datos para que nuestro algoritmo funcione de la manera correcta para lo cual es necesario
+* Aqui se deben hacer el pre procesamiento de los datos para que nuestro algoritmo funcione de la manera correcta para lo cual es necesario
 
        [user@hdpmaster Text-Analytics] $ python src/python/pre-process.py
        
-Una vez ejecutado la anterior linea, nos quedara un archivo csv llamado results que contiene todas las noticias separadas por ";" y en minusculas
-El siguiente paso es compilar el programa openmp en c++
+* Una vez ejecutado la anterior linea, nos quedara un archivo csv llamado results que contiene todas las noticias separadas por ";" y en minusculas
+
+* El siguiente paso es compilar el programa openmp en c++
       
        [user@hdpmaster Text-Analytics]$ g++ src/c++/openmp/main.cpp -o openmp -fopenmp
+       
+* Definir la cantidad de hilos con los cuales se desea ejecutar el algoritmo:
 
-Y para ejecutarlo simplemente se ejecuta lo siguiente:
+       [user@hdpmaster Text-Analytics]$ export OMP_NUM_THREADS=<NumeroDeHilos>
 
-          [user@hdpmaster Text-Analytics]$ ./openmp
+* Y para ejecutarlo simplemente se ejecuta lo siguiente:
+
+       [user@hdpmaster Text-Analytics]$ ./openmp
           
  
+* Si se realizaron los pasos correctamente debe poder ingresarse una palabta que será buscada en los diferentes articulos.
+   
 ## 1.2 Definición de tecnología de desarrollo para el algoritmo:
 
 * Lenguaje de Programación: C++
 * Técnica Aplicada: OpenMP
+* Biblioteca para hilos: OpenMP
