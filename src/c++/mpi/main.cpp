@@ -245,8 +245,10 @@ int main(int argc, char *argv[])
        }
       }
     }
-
+    cout<<"got here" <<endl;
     for(int i = 0; i < 30; i++){
+
+      cout<<"got here" <<endl;
           //Guarda en diferentes posiciones los valores del conteo.
           cout << counts[i] << "times found in : " << names[i] << endl;
     }
