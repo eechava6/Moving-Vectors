@@ -223,9 +223,9 @@ int main(int argc, char *argv[])
       MPI_Recv(b, 20, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
 
       if(i == 1){
-        for(int i = 0; i < 10; i++){
+        /*for(int i = 0; i < 10; i++){
           cout << b[i+10] << " times found in : '"<< filtered2[b[i]].title <<"'"<< endl;
-        }
+        }*/
 
         for(int j = 0; j < 10; j++){
           //Guarda en diferentes posiciones los valores del conteo.
@@ -235,9 +235,9 @@ int main(int argc, char *argv[])
       }
  
       if(i == 2){
-        for(int i = 0; i < 10; i++){
+        /*for(int i = 0; i < 10; i++){
           cout << b[i+10] << " times found in : '"<< filtered3[b[i]].title <<"'"<< endl;
-        }
+        }*/
         for(int j = 0; j < 10; j++){
           //Guarda en diferentes posiciones los valores del conteo.
           counts[j+10]= b[j+10];
@@ -249,7 +249,7 @@ int main(int argc, char *argv[])
     for(int i = 0; i < 30; i++){
           //Guarda en diferentes posiciones los valores del conteo.
           cout << counts[i] << "times found in : " << names[i] << endl;
-       }
+    }
 
   }
 
