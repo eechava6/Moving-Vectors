@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
     
     //Recibe los 10 primeros mayores
     
-    int* indexes = new int[10];
+    int* indexes = new int[20];
     indexes=conteo(filtered,word);
     
     //Para los resultados totales. 
@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
 
     //Guarda los 10 resultados del archivo uno en el total.
     for(int i = 0; i < 10; i++){
-          counts[i+20] = indexes[i];
+          counts[i+20] = indexes[i+10];
           names[i+20] = filtered[indexes[i]].title;
     }
 
