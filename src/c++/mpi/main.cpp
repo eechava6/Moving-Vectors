@@ -206,10 +206,16 @@ int main(int argc, char *argv[])
     filtered = archivos("results1.csv");
     filtered2 = archivos("results2.csv");
     filtered3 = archivos("results3.csv");
+    
     //Recibe los 10 primeros mayores
-    int *indexes = new int[30];
+    
+    int* indexes = new int[10];
     indexes=conteo(filtered,word);
     
+    //Para los resultados totales. 
+    string names[30];
+    int* counts = new int[30];
+
     //Espera hasta que se le envien los resultados
     for (i=1; i<=numworkers; i++){
       int* b = new int[20];
@@ -220,14 +226,29 @@ int main(int argc, char *argv[])
         for(int i = 0; i < 10; i++){
           cout << b[i+10] << " times found in : '"<< filtered2[b[i]].title <<"'"<< endl;
         }
+        for(int j = 0; j < 10; j++){
+          //Guarda en diferentes posiciones los valores del conteo.
+          counts[j]= b[j+10];
+          names[j] = filtered2[b[i]].title;
+       }
       }
  
       if(i == 2){
         for(int i = 0; i < 10; i++){
           cout << b[i+10] << " times found in : '"<< filtered3[b[i]].title <<"'"<< endl;
         }
+        for(int j = 0; j < 10; j++){
+          //Guarda en diferentes posiciones los valores del conteo.
+          counts[j+10]= b[j+10];
+          names[j+10] = filtered3[b[i]].title;
+       }
       }
     }
+
+    for(int i = 0; i < 30; i++){
+          //Guarda en diferentes posiciones los valores del conteo.
+          cout << counts[i] << "times found in : " << names[i] << endl;
+       }
 
   }
 
