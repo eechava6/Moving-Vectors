@@ -6,8 +6,8 @@ Proyecto 2 tópicos en telemática.
   
 **NOTA:**
 Debido a que se ejecuta un procesamiento en Python se generan unos archivos temporales en el directorio propio, por esta razón es necesario compilar todo desde el home del repo Text-Analytics/
-Para Serial/OpenMp -> python Text-Analytics/src/python/pre-processing.py
-Para MPI -> python Text-Analytics/src/python/pre-processing-for-mpi.py
+* Para Serial/OpenMp -> python Text-Analytics/src/python/pre-processing.py
+* Para MPI -> python Text-Analytics/src/python/pre-processing-for-mpi.py
 
 # 1. Algoritmo Serial
 
