@@ -151,7 +151,7 @@ int* conteo(vector<Columns> filtered,string word){
 
 int main(int argc, char *argv[])
 {
-  //Control Variables
+  //Variables de control
   char inmsg[30];
   string word;
   int i=0;
@@ -162,16 +162,7 @@ int main(int argc, char *argv[])
   MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
   MPI_Get_processor_name(name, &len);
   numworkers = numtasks-1;
-  //Para después jeje const 
-  /*
-    clock_t begin_time = clock();
-    float total = float( clock () - begin_time ) /  CLOCKS_PER_SEC;
-      //imprime los resultados
-      cout << "\n \n Total time was : " << total << endl;
 
-      //PENDIENTE POR BORRAR
-      cout <<" What word do you want to search for? \n";
-  */
   //Si es master haga: 
   if (taskid == 0) {
     
@@ -252,7 +243,7 @@ int main(int argc, char *argv[])
           //Imprime todo
           cout << counts[i] << " times found in : " << names[resultIndexes[i]] << endl;
     }
-    printf("TOTAL time: %lf\n", MPI_Wtime() - start);
+    printf("Total searching time was : %lf\n", MPI_Wtime() - start);
 
   }
 
@@ -270,7 +261,6 @@ int main(int argc, char *argv[])
     int *indexes;
     indexes=conteo(filtered,word_slaveo);
     //Envio de resultados
-    cout<<"Sending to the master from 1"<<endl;
     MPI_Send(indexes, 20, MPI_INT, 0, 2, MPI_COMM_WORLD);    
   }
   else if (taskid == 2) {
@@ -286,7 +276,6 @@ int main(int argc, char *argv[])
     string word_slaveo =inmsg;
     int *indexes;
     indexes=conteo(filtered,word_slaveo);
-    cout<<"Sending to the master from 2"<<endl;
     MPI_Send(indexes, 20, MPI_INT, 0, 2, MPI_COMM_WORLD);  
   }
 MPI_Finalize();
