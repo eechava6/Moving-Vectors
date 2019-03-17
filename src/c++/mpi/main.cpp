@@ -251,6 +251,7 @@ int main(int argc, char *argv[])
           //Imprime todo
           cout << counts[i] << " times found in : " << names[resultIndexes[i]] << endl;
     }
+    
 
   }
 
