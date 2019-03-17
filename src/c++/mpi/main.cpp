@@ -136,7 +136,7 @@ int* conteo(vector<Columns> filtered,string word){
     
   //Se imprime en orden ascendente los 10 primeros resultados con el articulo.
   int* results = new int[10];
-  for(int i = 0; i < 10; i++){
+  for(int i = 0; i < 10; i = i++){
     results[i] = indexes[i];
   }
   return results;
@@ -200,24 +200,31 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     indexes1=conteo(filtered,word);
     //Espera hasta que se le envien los resultados
+    int* finalResult = new int[30];
+
     for (i=1; i<=numworkers; i++)
       {
 
-	int* b = new int[10];
-	source = i;
-	MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
-	if(i == 1){
-	  for(int i = 0; i < 10; i++){
-	    cout << "found in : '"<< filtered2[b[i]].title <<"'"<< endl;
-	  }
-	}
-	if(i == 2){
-	  for(int i = 0; i < 10; i++){
-	    cout << "found in : '"<< filtered3[b[i]].title <<"'"<< endl;
-	  }
-	}
-	break;
+      int* b = new int[10];
+      source = i;
+      MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
+
+      for(int j = 0; i < 10; i++){
+        finalResult[(i*10)+j] = b[j];
       }
+      
+      if(i == 1){
+        for(int i = 0; i < 10; i++){
+          cout << "found in : '"<< filtered2[b[i]].title <<"'"<< endl;
+        }
+      }
+      if(i == 2){
+        for(int i = 0; i < 10; i++){
+          cout << "found in : '"<< filtered3[b[i]].title <<"'"<< endl;
+        }
+      }
+    }
+
   }
 
   else if (taskid == 1) {
@@ -233,7 +240,7 @@ int main(int argc, char *argv[])
     indexes2=conteo(filtered2,word_slaveo);
     //Envio de resultados
 
-    cout<<"Sending to the master"<<endl;
+    cout<<"Sending to the master from 1"<<endl;
     MPI_Send(indexes2, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);    
   }
   else if (taskid == 2) {
@@ -247,6 +254,9 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
     indexes3=conteo(filtered3,word_slaveo);
+
+    cout<<"Sending to the master from 2"<<endl;
+    MPI_Send(indexes3, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);  
   }
 MPI_Finalize();
 
