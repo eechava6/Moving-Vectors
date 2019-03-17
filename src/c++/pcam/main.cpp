@@ -162,8 +162,6 @@ int main(int argc, char *argv[])
   MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
   MPI_Get_processor_name(name, &len);
   numworkers = numtasks-1;
-
-  
   //Para después jeje const 
   /*
     clock_t begin_time = clock();
@@ -176,13 +174,14 @@ int main(int argc, char *argv[])
   */
   //Si es master haga: 
   if (taskid == 0) {
+    
     cout << "What word do you want to search for? \n";
     cin>>word;
     //Si '/' acabe el programa
     if(word=="/"){
       return 0;
     }
-
+    start = MPI_Wtime();
     //Calcule la longitud para luego crear un arreglo de Chars del string
     int n = word.length();  
     char char_array[n + 1];  
@@ -253,7 +252,7 @@ int main(int argc, char *argv[])
           //Imprime todo
           cout << counts[i] << " times found in : " << names[resultIndexes[i]] << endl;
     }
-
+    printf("TOTAL time: %lf\n", MPI_Wtime() - start);
 
   }
 
