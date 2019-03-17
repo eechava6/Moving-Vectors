@@ -14,9 +14,12 @@
 * T7. Guardar en arreglo la frecuencia de esa palabra.
 * T8. Buscar los 10 frecuencias mas grandes.
 * T9. Ordenar de mayor a menor las frecuencias halladas.
-* T10. Devolver las 10 frecuencias mas altas.
-* T11. Calcular otra vez cuales son las frecuencias mas grandes.
-* T12. Ordenar esas frecuencias de mayor a menor.
-* T13. Imprimir las 10 primeras noticias que mas repitan la palabra a buscar.
+* T10. Imprimir las 10 primeras noticias que mas repitan la palabra a buscar.
 
 ### Comunicación
+![](./Comunicacion.png)
+
+### Aglomeración
+
+
+### Mapeo 
