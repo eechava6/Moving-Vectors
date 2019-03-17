@@ -200,22 +200,20 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     indexes1=conteo(filtered,word);
     //Espera hasta que se le envien los resultados
-    for (i=1; i<=numworkers; i++)
-      {
-	int* b = new int[10];
-	source = i;
-	MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
-	if(i == 1){
-	  for(int i = 0; i < 10; i++){
-	    cout << "found in : '"<< filtered2[b[i]].title <<"'"<< endl;
-	  }
-	}
-	if(i == 2){
-	  for(int i = 0; i < 10; i++){
-	    cout << "found in : '"<< filtered3[b[i]].title <<"'"<< endl;
-	  }
-	}
-	break;
+    for (i=1; i<=numworkers; i++){
+      int* b = new int[10];
+      source = i;
+      MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
+      if(i == 1){
+        for(int i = 0; i < 10; i++){
+          cout << "found in : '"<< filtered2[b[i]].title <<"'"<< endl;
+        }
+      }
+      if(i == 2){
+        for(int i = 0; i < 10; i++){
+          cout << "found in : '"<< filtered3[b[i]].title <<"'"<< endl;
+        }
+      }
       }
   }
   else if (taskid == 1) {
@@ -247,6 +245,9 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
     indexes3=conteo(filtered3,word_slaveo);
+    //Envio de resultados
+    cout<<"Sending to the master"<<endl;
+    MPI_Send(indexes2, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);
   }
 MPI_Finalize();
 
