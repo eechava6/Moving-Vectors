@@ -4,7 +4,7 @@ Proyecto 2 tópicos en telemática.
   Esteban Echavarría Collazos <br>
   Esteban Perez Noreña <br>
   
-** NOTA: **
+**NOTA:**
 Debido a que se ejecuta un procesamiento en Python se generan unos archivos temporales en el directorio propio, por esta razón es necesario compilar todo desde el home del repo Text-Analytics/
 
 # 1. Algoritmo Serial
