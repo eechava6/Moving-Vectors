@@ -25,34 +25,34 @@ struct Columns {
 void swap(int *xp, int *yp) 
 {
   //Intercambia entre 2 elementos
-    int temp = *xp; 
-    *xp = *yp; 
-    *yp = temp; 
+  int temp = *xp; 
+  *xp = *yp; 
+  *yp = temp; 
 } 
   
 void selectionSort(int arr[],int indexes[], int n) 
 { 
-    int i, j, max = 0; 
-    //Solo ordenamos hasta tener los 10 primeros valores más grandes
-    for (i = 0; i < 10; i++) 
+  int i, j, max = 0; 
+  //Solo ordenamos hasta tener los 10 primeros valores más grandes
+  for (i = 0; i < 10; i++) 
     { 
-        // Encuentra el valor más grande en un arreglo sin ordenar 
-        max = i; 
-        for (j = i+1; j < n; j++){
-          if (arr[j] > arr[max]) {
-            max = j; 
-          }
-        } 
-        // Cambia el máximo con el primero.
-        swap(&arr[max], &arr[i]); 
-        swap(&indexes[max], &indexes[i]); 
+      // Encuentra el valor más grande en un arreglo sin ordenar 
+      max = i; 
+      for (j = i+1; j < n; j++){
+	if (arr[j] > arr[max]) {
+	  max = j; 
+	}
+      } 
+      // Cambia el máximo con el primero.
+      swap(&arr[max], &arr[i]); 
+      swap(&indexes[max], &indexes[i]); 
     } 
     
 }
 //Funcion creada para la lectura del archivo csv enviado 
 vector<Columns> archivos(string nombre){
-vector<Columns> filtered;  
- ifstream fin(nombre.c_str());
+  vector<Columns> filtered;  
+  ifstream fin(nombre.c_str());
   if (!fin)
     {
       cout << "File not open\n";
@@ -71,13 +71,13 @@ vector<Columns> filtered;
       Columns preFiltered;
       //extrae las columnas y las guarda en la struct en su correspondiente espacio
       while(token != line){
-      token = line.substr(0,line.find_first_of(delim));
-      line = line.substr(line.find_first_of(delim) + 1);
-      ss >> preFiltered.id; ss.ignore(10, delim); 
-            getline(ss, preFiltered.title,delim);
-      getline(ss, preFiltered.content,delim);
-            if (ss)
-        filtered.push_back(preFiltered);
+	token = line.substr(0,line.find_first_of(delim));
+	line = line.substr(line.find_first_of(delim) + 1);
+	ss >> preFiltered.id; ss.ignore(10, delim); 
+	getline(ss, preFiltered.title,delim);
+	getline(ss, preFiltered.content,delim);
+	if (ss)
+	  filtered.push_back(preFiltered);
       }
     
     }
@@ -108,18 +108,18 @@ int* conteo(vector<Columns> filtered,string word){
     stringstream ss2(str2);
     cont=0;
     //Verifica en el content cuantas repeticiones de la palabra encuentra
-      while(ss>>str){
-        if(word==str)
-           cont++;   
-      }
+    while(ss>>str){
+      if(word==str)
+	cont++;   
+    }
     //Verifica en el title cuantas repeticiones de la palabra encuentra
-      while(ss2>>str2){
-        if(word==str2){
-           cont++;   
-        }
-  }
-  //Almacena en un arreglo para luego poder hacer el sort
-  words[i]=cont;
+    while(ss2>>str2){
+      if(word==str2){
+	cont++;   
+      }
+    }
+    //Almacena en un arreglo para luego poder hacer el sort
+    words[i]=cont;
   }
 
 
@@ -137,7 +137,7 @@ int* conteo(vector<Columns> filtered,string word){
   //Se imprime en orden ascendente los 10 primeros resultados con el articulo.
   int* results = new int[10];
   for(int i = 0; i < 10; i++){
-      results[i] = indexes[i];
+    results[i] = indexes[i];
   }
   return results;
 }
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
   char inmsg[30];
   string word;
   int i=0;
-  int taskid,numtasks,len,numworkers,dest;
+  int taskid,numtasks,len,numworkers,dest,source;
   char name[MPI_MAX_PROCESSOR_NAME];
   MPI_Init(&argc, &argv);
   MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
@@ -178,9 +178,9 @@ int main(int argc, char *argv[])
     cout << "What word do you want to search for? \n";
     cin>>word;
     //Si '/' acabe el programa
-      if(word=="/"){
-        return 0;
-      }
+    if(word=="/"){
+      return 0;
+    }
 
     //Calcule la longitud para luego crear un arreglo de Chars del string
     int n = word.length();  
@@ -195,9 +195,29 @@ int main(int argc, char *argv[])
     }
     //Haga el conteo del archivo "Results1.csv"
     filtered = archivos("results1.csv");
+    filtered2 = archivos("results2.csv");
+    filtered3 = archivos("results3.csv");
     //Recibe los 10 primeros mayores
     indexes1=conteo(filtered,word);
-   }
+    //Espera hasta que se le envien los resultados
+    for (i=1; i<=numworkers; i++)
+      {
+	int* b = new int[10];
+	source = i;
+	MPI_Recv(b, 10, MPI_INT, source, 2, MPI_COMM_WORLD, &status);
+	if(i == 1){
+	  for(int i = 0; i < 10; i++){
+	    cout << "found in : '"<< filtered2[b[i]].title <<"'"<< endl;
+	  }
+	}
+	if(i == 2){
+	  for(int i = 0; i < 10; i++){
+	    cout << "found in : '"<< filtered3[b[i]].title <<"'"<< endl;
+	  }
+	}
+	break;
+      }
+  }
   else if (taskid == 1) {
     //Reservar el tamaño para el mensaje
     memset(inmsg, 0, 30);
@@ -209,6 +229,12 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
     indexes2=conteo(filtered2,word_slaveo);
+    //Envio de resultados
+    cout<<"Sending to the master"<<endl;
+    MPI_Send(indexes2, 10, MPI_INT, 0, 2, MPI_COMM_WORLD);
+    
+    
+    
   }
   else if (taskid == 2) {
     //Reservar el tamaño para el mensaje
@@ -221,11 +247,6 @@ int main(int argc, char *argv[])
     //Recibe los 10 primeros mayores
     string word_slaveo =inmsg;
     indexes3=conteo(filtered3,word_slaveo);
-  }
-  if (taskid == 0) {
-    for(int i = 0; i < 10; i++){
-      cout << indexes1[i]  <<  " jeje" << endl;
-    }
   }
 MPI_Finalize();
 
