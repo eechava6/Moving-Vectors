@@ -83,16 +83,14 @@ vector<Columns> filtered;
     }
   return filtered;
 }
-//Funcion que hace el conteo de la paabra enviada
-int * conteo(vector<Columns> filtered,string word){
-int words[filtered.size()+1];
-  int indexes[filtered.size()+1];
-    //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
-  transform(word.begin(),word.end(),word.begin(),::tolower);
-  cout<<"Starting count for word : '"<<word << "' ...."<<endl;
 
-  //Comienza a contar el tiempo
-  const clock_t begin_time = clock();
+//Funcion que hace el conteo de la palabra enviada
+int* conteo(vector<Columns> filtered,string word){
+  int words[filtered.size()+1];
+  int indexes[filtered.size()+1];
+  //Cambia la palabra a lower ya que el dataset fue cambiado a minusculas
+  transform(word.begin(),word.end(),word.begin(),::tolower);
+
   int size = filtered.size();
   
   //Itero por cada objeto de la struct para poder hacer el count de cada palabra por content y titulo
@@ -123,7 +121,7 @@ int words[filtered.size()+1];
   //Almacena en un arreglo para luego poder hacer el sort
   words[i]=cont;
   }
-  
+
 
   //Llena un arreglo con los indices de cada articulo (Es decir la posición en el arreglo)
   for(int i = 0; i < filtered.size(); i++){
@@ -135,27 +133,21 @@ int words[filtered.size()+1];
   mientras que indexes tendrá los "Intercambios" de posición
   que permiten relacionar los valores con un articulo.*/
   selectionSort(words,indexes,filtered.size());
-  
+    
   //Se imprime en orden ascendente los 10 primeros resultados con el articulo.
+  int* results = new int[10];
   for(int i = 0; i < 10; i++){
-     cout << words[i] <<" times found in : '"<< filtered[indexes[i]].title <<"'"<< endl;
+      results[i] = indexes[i];
   }
-
-  //Termina el tiempo para el ordenamiento.
- 
-  float total = float( clock () - begin_time ) /  CLOCKS_PER_SEC;
-  //imprime los resultados
-  cout << "\n \n Total time was : " << total << endl;
-  return words;
-  cout <<" What word do you want to search for? \n";
+  return results;
 }
 
 
 
 int main(int argc, char *argv[])
 {
+  //Control Variables
   char inmsg[30];
-  string line;
   string word;
   int i=0;
   int taskid,numtasks,len,numworkers,dest;
@@ -165,41 +157,76 @@ int main(int argc, char *argv[])
   MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
   MPI_Get_processor_name(name, &len);
   numworkers = numtasks-1;
-  //cout<<numworkers<<endl;
-  cout << "What word do you want to search for? \n";
-  //cin >> word;
-   if (taskid == 0) {
-    cout<<"Im in 0"<<endl;
+  //Para después jeje const 
+  /*
+    clock_t begin_time = clock();
+    float total = float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+      //imprime los resultados
+      cout << "\n \n Total time was : " << total << endl;
+
+      //PENDIENTE POR BORRAR
+      cout <<" What word do you want to search for? \n";
+  */
+  //Si es master haga: 
+  if (taskid == 0) {
+    cout << "What word do you want to search for? \n";
     cin>>word;
-      if(word=="/")
-	return 0;
+    //Si '/' acabe el programa
+      if(word=="/"){
+        return 0;
+      }
+
+    //Calcule la longitud para luego crear un arreglo de Chars del string
     int n = word.length();  
     char char_array[n + 1];  
+
+    //Copia el contenido del string en el arreglo de caracteres
     strcpy(char_array, word.c_str()); 
-    for (dest=1; dest<=numworkers; dest++)
-    MPI_Send(&char_array,strlen(char_array),MPI_CHAR,dest,1,MPI_COMM_WORLD);
+
+    //Por cada Slave envie la palabra al slave
+    for (dest=1; dest<=numworkers; dest++){
+      MPI_Send(&char_array,strlen(char_array),MPI_CHAR,dest,1,MPI_COMM_WORLD);
+    }
+    //Haga el conteo del archivo "Results1.csv"
     vector<Columns> filtered;
     filtered = archivos("results1.csv");
+    //Recibe los 10 primeros mayores
+    int *indexes1;
+    indexes=conteo(filtered,word);
    }
   else if (taskid == 1) {
-    //cout<<"Im in 1"<<endl;
+    //Reservar el tamaño para el mensaje
     memset(inmsg, 0, 30);
+    //Reciba el mensaje y ubiquelo en la posición reservada.
     MPI_Recv(&inmsg,30, MPI_CHAR, 0, 1, MPI_COMM_WORLD,  MPI_STATUS_IGNORE);
     printf("Slave 1 on processor %s listening for Tag2 received this  message:\n   %s\n",name,inmsg);
-    vector<Columns> filtered;
-filtered = archivos("results2.csv");
- int *numeros;
- string word_slaveo =inmsg;
- numeros=conteo(filtered,word_slaveo);
+    //Haga el conteo del archivo "Results2.csv"
+    vector<Columns> filtered2;
+    filtered2 = archivos("results2.csv");
+    //Recibe los 10 primeros mayores
+    int *indexes2;
+    string word_slaveo =inmsg;
+    indexes=conteo(filtered2,word_slaveo);
   }
   else if (taskid == 2) {
-    //cout<<"Im in 2"<<endl;
+    //Reservar el tamaño para el mensaje
     memset(inmsg, 0, 30);
+    //Reciba el mensaje y ubiquelo en la posición reservada.
     MPI_Recv(&inmsg,30, MPI_CHAR, 0, 1, MPI_COMM_WORLD,  MPI_STATUS_IGNORE);
     printf("Slave 2 on processor %s listening for Tag2 received this  message:\n   %s\n",name,inmsg);
-    vector<Columns> filtered;
-filtered = archivos("results2.csv");
-}
+    //Haga el conteo del archivo "Results2.csv"
+    vector<Columns> filtered3;
+    filtered3 = archivos("results3.csv");
+    //Recibe los 10 primeros mayores
+    int *indexes3;
+    string word_slaveo =inmsg;
+    indexes=conteo(filtered3,word_slaveo);
+  }
+  if (taskid == 0) {
+    for(int i = 0; i < 10; i++){
+      cout << filtered[results1[i]]  <<  " jeje" << endl;
+    }
+  }
 MPI_Finalize();
 
 }  
