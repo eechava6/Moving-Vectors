@@ -241,8 +241,8 @@ int main(int argc, char *argv[])
 
     //Guarda los 10 resultados del archivo uno en el total.
     for(int i = 0; i < 10; i++){
-          counts[j+20] = indexes[i];
-          names[j+20] = filtered[indexes[i]].title;
+          counts[i+20] = indexes[i];
+          names[i+20] = filtered[indexes[i]].title;
     }
 
     for(int i = 0; i < 30; i++){
