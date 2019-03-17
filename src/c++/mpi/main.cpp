@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
     //Para los resultados totales. 
     string names[30];
     int* counts = new int[30];
-    int resultIndexes = new int[30];
+    int* resultIndexes = new int[30];
 
     //Espera hasta que se le envien los resultados
     for (i=1; i<=2; i++){
@@ -251,7 +251,7 @@ int main(int argc, char *argv[])
           //Imprime todo
           cout << counts[i] << " times found in : " << names[resultIndexes[i]] << endl;
     }
-    
+
 
   }
 
