@@ -3,7 +3,7 @@ Proyecto 2 tópicos en telemática.
 # Integrantes
   Esteban Echavarría Collazos - eechava6@eafit.edu.co <br> 
   Esteban Perez Noreña - eperezn@eafit.edu.co <br> 
-  [VIDEO](https://youtu.be/bKwWz3JZG9g "Video Esteban Perez") <br>
+  [Video Esteban Perez](https://youtu.be/Rq0EPamqlNQ "Video Esteban Perez") <br>
   
 **NOTA:**
 Debido a que se ejecuta un procesamiento en Python se generan unos archivos temporales en el directorio propio, por esta razón es necesario compilar todo desde el home del repo Text-Analytics/
