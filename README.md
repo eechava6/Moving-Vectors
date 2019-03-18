@@ -6,6 +6,7 @@ Proyecto 2 tópicos en telemática.
   [Video Esteban Echavarria]( https://www.youtube.com/watch?v=Bhc0uJps4FI "Video Esteban Echavarria") <br>
  
   Esteban Perez Noreña - eperezn@eafit.edu.co <br> 
+  
   [Video Esteban Perez](https://youtu.be/Rq0EPamqlNQ "Video Esteban Perez") <br>
   
 **NOTA:**
