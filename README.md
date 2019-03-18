@@ -10,7 +10,7 @@ Debido a que se ejecuta un procesamiento en Python se generan unos archivos temp
 
        [user@hdpmaster Text-Analytics]$  python ./src/python/pre-processing.py
           
-* Para MPI -> python 
+* Para MPI
 
          [user@hdpmaster Text-Analytics]$  python ./src/python/pre-processing-for-mpi.py
 
