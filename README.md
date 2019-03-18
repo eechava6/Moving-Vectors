@@ -44,7 +44,7 @@ En la versión de OpenMP se evidencia como aunque mejore el SpeedUp, la eficienc
 
 - ### Versión PCAM
 
-En la versión de OpenMP y MPI es posible observar como tanto el SpeedUp como la eficiencia disminuyen a partir de Np = 4, se sugiere de igual forma NP = 2 pues el que representa una de las mejores relaciones. 
+En la versión de OpenMP y MPI es posible observar como tanto el SpeedUp como la eficiencia disminuyen a partir de Np = 4, se sugiere dNP = 3 pues el que representa una de las mejores relaciones entre el speedup y la eficiencia.
 
 ![](./speedupMpi.jpg)
 
